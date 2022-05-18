@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.BizLeaveMapper">
+
+    <resultMap type="BizLeaveVo" id="BizLeaveResult">
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="title" column="title"/>
+        <result property="prodLine" column="prod_line"/>
+        <result property="className" column="class_name"/>
+        <result property="classType" column="class_type"/>
+        <result property="gridDatas" column="grid_datas" typeHandler="com.ruoyi.framework.handlers.ListTypeHandler"/>
+        <result property="badReason" column="bad_reason"/>
+        <result property="reason" column="reason"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="totalTime" column="total_time"/>
+        <result property="instanceId" column="instance_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="applyUser" column="apply_user"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="sumMinute" column="sum_minute"/>
+        <result property="sumHour" column="sum_hour"/>
+        <result property="sumPlanNum" column="sum_plan_num"/>
+        <result property="sumProdNum" column="sum_prod_num"/>
+        <result property="sumTotalProdNum" column="sum_total_prod_num"/>
+        <result property="sumRealNum" column="sum_real_num"/>
+        <result property="sumBadNum" column="sum_bad_num"/>
+        <result property="sumTestNum" column="sum_test_num"/>
+        <result property="sumReuse" column="sum_reuse"/>
+        <result property="sumDirectOperator" column="sum_direct_operator"/>
+        <result property="sumIndirectOperator" column="sum_indirect_operator"/>
+        <result property="sumPlanRate" column="sum_plan_rate"/>
+        <result property="sumWorkTimeTypes" column="sum_work_time_types" typeHandler="com.ruoyi.framework.handlers.JacksonTypeHandler"/>
+        <result property="sumGoodProdRate" column="sum_good_prod_rate"/>
+        <result property="sumHourRate" column="sum_hour_rate"/>
+    </resultMap>
+
+    <sql id="selectBizLeaveVo">
+        select *
+        from biz_leave
+    </sql>
+
+    <select id="selectBizLeaveList" parameterType="BizLeaveVo" resultMap="BizLeaveResult">
+        select t1.*,t2.NAME_ as taskName
+        from biz_leave as t1
+        LEFT JOIN ACT_RU_TASK as t2 ON t1.instance_id = t2.PROC_INST_ID_
+        <where>
+            1=1
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="title != null  and title != ''">and title like concat('%', #{title}, '%')</if>
+            <if test="prodLine != null  and prodLine != ''">and prod_line = #{prodLine}</if>
+            <if test="className != null  and className != ''">and class_name = #{className}</if>
+            <if test="classType != null  and classType != ''">and class_type = #{classType}</if>
+            <choose>
+                <when test="taskName == '未提交'">
+                    and t2.NAME_ is null and t1.instance_id is null
+                </when>
+                <when test="taskName == '已结束'">
+                    and t2.NAME_ is null and t1.instance_id is not null
+                </when>
+                <when test="taskName!=null and taskName != ''">
+                    and t2.NAME_ = #{taskName}
+                </when>
+            </choose>
+            <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
+            <if test="reason != null  and reason != ''">and reason = #{reason}</if>
+            <if test="startTime != null ">and start_time = #{startTime}</if>
+            <if test="endTime != null ">and end_time = #{endTime}</if>
+            <if test="totalTime != null ">and total_time = #{totalTime}</if>
+            <if test="createBy != null  and createBy != ''">and create_by = #{createBy}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBizLeaveById" parameterType="Long" resultMap="BizLeaveResult">
+        <include refid="selectBizLeaveVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizLeave" parameterType="BizLeaveVo" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_leave
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">type,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="prodLine != null  and prodLine != ''">prod_line,</if>
+            <if test="className != null  and className != ''">class_name,</if>
+            <if test="classType != null  and classType != ''">class_type,</if>
+            <if test="gridDatas != null  and gridDatas != ''">grid_datas,</if>
+            <if test="badReason != null  and badReason != ''">bad_reason,</if>
+            <if test="reason != null  and reason != ''">reason,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="totalTime != null ">total_time,</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="sumMinute != null ">sum_minute,</if>
+            <if test="sumHour != null ">sum_hour,</if>
+            <if test="sumPlanNum != null ">sum_plan_num,</if>
+            <if test="sumProdNum != null ">sum_prod_num,</if>
+            <if test="sumTotalProdNum != null ">sum_total_prod_num,</if>
+            <if test="sumRealNum != null ">sum_real_num,</if>
+            <if test="sumBadNum != null ">sum_bad_num,</if>
+            <if test="sumTestNum != null ">sum_test_num,</if>
+            <if test="sumReuse != null ">sum_reuse,</if>
+            <if test="sumDirectOperator != null ">sum_direct_operator,</if>
+            <if test="sumIndirectOperator != null ">sum_indirect_operator,</if>
+            <if test="sumPlanRate != null ">sum_plan_rate,</if>
+            <if test="sumWorkTimeTypes != null ">sum_work_time_types,</if>
+            <if test="sumGoodProdRate != null ">sum_good_prod_rate,</if>
+            <if test="sumHourRate != null ">sum_hour_rate</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="prodLine != null  and prodLine != ''">#{prodLine},</if>
+            <if test="className != null  and className != ''">#{className},</if>
+            <if test="classType != null  and classType != ''">#{classType},</if>
+            <if test="gridDatas != null  and gridDatas != ''">#{gridDatas},</if>
+            <if test="badReason != null  and badReason != ''">#{badReason},</if>
+            <if test="reason != null  and reason != ''">#{reason},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="totalTime != null ">#{totalTime},</if>
+            <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="sumMinute != null ">#{sumMinute},</if>
+            <if test="sumHour != null ">#{sumHour},</if>
+            <if test="sumPlanNum != null ">#{sumPlanNum},</if>
+            <if test="sumProdNum != null ">#{sumProdNum},</if>
+            <if test="sumTotalProdNum != null ">#{sumTotalProdNum},</if>
+            <if test="sumRealNum != null ">#{sumRealNum},</if>
+            <if test="sumBadNum != null ">#{sumBadNum},</if>
+            <if test="sumTestNum != null ">#{sumTestNum},</if>
+            <if test="sumReuse != null ">#{sumReuse},</if>
+            <if test="sumDirectOperator != null ">#{sumDirectOperator},</if>
+            <if test="sumIndirectOperator != null ">#{sumIndirectOperator},</if>
+            <if test="sumPlanRate != null ">#{sumPlanRate},</if>
+            <if test="sumWorkTimeTypes != null ">#{sumWorkTimeTypes},</if>
+            <if test="sumGoodProdRate != null ">#{sumGoodProdRate},</if>
+            <if test="sumHourRate != null ">#{sumHourRate}</if>
+        </trim>
+    </insert>
+
+    <update id="updateBizLeave" parameterType="BizLeaveVo">
+        update biz_leave
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="prodLine != null  and prodLine != ''">prod_line = #{prodLine},</if>
+            <if test="className != null  and className != ''">class_name = #{className},</if>
+            <if test="classType != null  and classType != ''">class_type = #{classType},</if>
+            <if test="gridDatas != null  and gridDatas != ''">grid_datas = #{gridDatas},</if>
+            <if test="badReason != null  and badReason != ''">bad_reason = #{badReason},</if>
+            <if test="reason != null  and reason != ''">reason = #{reason},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="totalTime != null ">total_time = #{totalTime},</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id = #{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="applyUser != null ">apply_user = #{applyUser},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+            <if test="realityStartTime != null ">reality_start_time = #{realityStartTime},</if>
+            <if test="realityEndTime != null ">reality_end_time = #{realityEndTime},</if>
+            <if test="sumMinute != null ">sum_minute = #{sumMinute},</if>
+            <if test="sumHour != null ">sum_hour = #{sumHour},</if>
+            <if test="sumPlanNum != null ">sum_plan_num = #{sumPlanNum},</if>
+            <if test="sumProdNum != null ">sum_prod_num = #{sumProdNum},</if>
+            <if test="sumTotalProdNum != null ">sum_total_prod_num = #{sumTotalProdNum},</if>
+            <if test="sumRealNum != null ">sum_real_num = #{sumRealNum},</if>
+            <if test="sumBadNum != null ">sum_bad_num = #{sumBadNum},</if>
+            <if test="sumTestNum != null ">sum_test_num = #{sumTestNum},</if>
+            <if test="sumReuse != null ">sum_reuse = #{sumReuse},</if>
+            <if test="sumDirectOperator != null ">sum_direct_operator = #{sumDirectOperator},</if>
+            <if test="sumIndirectOperator != null ">sum_indirect_operator = #{sumIndirectOperator},</if>
+            <if test="sumPlanRate != null ">sum_plan_rate = #{sumPlanRate},</if>
+            <if test="sumWorkTimeTypes != null ">sum_work_time_types = #{sumWorkTimeTypes},</if>
+            <if test="sumGoodProdRate != null ">sum_good_prod_rate = #{sumGoodProdRate},</if>
+            <if test="sumHourRate != null ">sum_hour_rate = #{sumHourRate}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizLeaveById" parameterType="Long">
+        delete
+        from biz_leave
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteBizLeaveByIds" parameterType="String">
+        delete from biz_leave where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

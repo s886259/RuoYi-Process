@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('修改最终检查日报')"/>
+    <th:block th:include="include :: datetimepicker-css"/>
+    <th:block th:include="include :: select2-css"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-leave-edit" th:object="${bizLeave}">
+        <input name="id" th:field="*{id}" type="hidden">
+        <h1>基本信息</h1>
+        <div class="container-div">
+            <div class="form-group">
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>生产线：</label>
+                    <div class="col-sm-8">
+                        <select name="prodLine" class="form-control m-b" th:disabled="${disabled}"
+                                th:with="type=${@dict.getType('biz_prod_line')}" required>
+                            <option value="">请选择生产线</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{prodLine}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>班次：</label>
+                    <div class="col-sm-8">
+                        <select name="className" class="form-control m-b" th:disabled="${disabled}"
+                                th:with="type=${@dict.getType('biz_class_name')}" required>
+                            <option value="">请选择班次</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{className}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>班制：</label>
+                    <div class="col-sm-8">
+                        <select name="classType" class="form-control m-b" th:disabled="${disabled}"
+                                th:with="type=${@dict.getType('biz_class_type')}" required>
+                            <option value="">请选择班制</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}" th:field="*{classType}"></option>
+                        </select>
+                    </div>
+                </div>
+                <!--tblAppendGrid-->
+                <div class="container-fluid">
+                    <table id="tblAppendGrid"></table>
+                </div>
+            </div>
+        </div>
+
+        <h1>数据统计</h1>
+        <div class="container-div">
+            <div class="form-group">
+                <!--时间-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>时间(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumMinute" class="form-control" type="text" placeholder="自动计算"
+                               th:field="*{sumMinute}" readonly required>
+                    </div>
+                </div>
+                <!--工时-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>工时(h)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumHour" class="form-control" type="text" placeholder="自动计算" readonly required>
+                    </div>
+                </div>
+                <!--計画数-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>計画数：</label>
+                    <div class="col-sm-8">
+                        <input name="sumPlanNum" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--阶段生产-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>阶段生产：</label>
+                    <div class="col-sm-8">
+                        <input name="sumProdNum" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--总生产-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>总生产：</label>
+                    <div class="col-sm-8">
+                        <input name="sumTotalProdNum" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--実績统计数-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>実績统计数：</label>
+                    <div class="col-sm-8">
+                        <input name="sumRealNum" class="form-control" type="text" placeholder="自动计算" readonly required>
+                    </div>
+                </div>
+                <!--不良数-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>不良数：</label>
+                    <div class="col-sm-8">
+                        <input name="sumBadNum" class="form-control" type="text" placeholder="自动计算" readonly required>
+                    </div>
+                </div>
+                <!--试验品-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>试验品：</label>
+                    <div class="col-sm-8">
+                        <input name="sumTestNum" class="form-control" type="text" placeholder="自动计算" readonly required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--再利用-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>再利用：</label>
+                    <div class="col-sm-8">
+                        <input name="sumReuse" class="form-control" type="text" placeholder="自动计算" readonly required>
+                    </div>
+                </div>
+                <!--直接作业人员-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>直接作业人员：</label>
+                    <div class="col-sm-8">
+                        <input name="sumDirectOperator" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--直间作业人员-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>直间作业人员：</label>
+                    <div class="col-sm-8">
+                        <input name="sumIndirectOperator" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--速成率-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>速成率(%)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumPlanRate" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--稼动-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>稼动(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType2" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--部品等待-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>部品等待(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType16" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--切换时间-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>切换时间(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType11" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--品质停止-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>品质停止(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType10" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--设备停止-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>设备停止(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType5" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--试做-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>试做(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType12" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--无计划-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>无计划(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType9" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--其他-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>其他(min)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumWorkTimeType19" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+            </div>
+            <!--计划达成-->
+            <div class="form-group">
+                <!-- <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>计划达成：</label>
+                    <div class="col-sm-8">
+                        <select name="prodLine" class="form-control m-b"
+                                th:with="type=${@dict.getType('biz_prod_line')}" required>
+                            <option value="">请选择生产线</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}"></option>
+                        </select>
+                    </div>
+                </div> -->
+                <!--实际达成-->
+                <!-- <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>实际达成：</label>
+                    <div class="col-sm-8">
+                        <select name="className" class="form-control m-b"
+                                th:with="type=${@dict.getType('biz_class_name')}" required>
+                            <option value="">请选择班次</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}"></option>
+                        </select>
+                    </div>
+                </div> -->
+                <!--良品比例-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>良品比例(%)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumGoodProdRate" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+                <!--工时达成率-->
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>工时达成率(%)：</label>
+                    <div class="col-sm-8">
+                        <input name="sumHourRate" class="form-control" type="text" placeholder="自动计算" readonly
+                               required>
+                    </div>
+                </div>
+            </div>
+            <!--特计-->
+            <!-- <div class="form-group">
+                <div class="form-group col-sm-3">
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>特计：</label>
+                    <div class="col-sm-8">
+                        <select name="prodLine" class="form-control m-b"
+                                th:with="type=${@dict.getType('biz_prod_line')}" required>
+                            <option value="">请选择生产线</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+        <h1>不良内容</h1>
+        <div class="container-div">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <textarea name="badReason" class="form-control" rows="5" placeholder="请填写不良内容"
+                              th:disabled="${disabled}" required>[[*{badReason}]]</textarea>
+                </div>
+            </div>
+        </div>
+
+        <h1>特计</h1>
+        <div class="container-div">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <textarea name="reason" class="form-control" rows="5" placeholder="请填写特计内容"
+                              th:disabled="${disabled}" required>[[*{reason}]]</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="form-group">
+            <label class="col-sm-3 control-label"><span style="color: red; ">*</span>开始时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="startTime" th:value="${#dates.format(bizLeave.startTime, 'yyyy-MM-dd HH:mm')}"
+                           class="form-control calcTotalSecondInput" placeholder="yyyy-MM-dd" type="text" required>
+                </div>
+            </div>
+        </div> -->
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: datetimepicker-js"/>
+<th:block th:include="include :: select2-js"/>
+<script th:src="@{/js/activiti.js}"></script>
+<script th:inline="javascript">
+    var prefix = ctx + "leave";
+    $("#form-leave-edit").validate({
+        focusCleanup: true
+    });
+    //字典-品番紙内容
+    var biz_content_types = [[${@dict.getType('biz_content_type')}]];
+    //字典-维修设备
+    var biz_repair_device = [[${@dict.getType('biz_repair_device')}]];
+
+    var repairAttrs = [
+        "repairDeviceNum",      //维修设备编号
+        "repairDeviceName",     //维修设备名称
+        "repairOrder",          //维修单号
+        "repairReason",         //停止原因
+        "repairOperator",       //维修人员
+    ]
+    var beginWorkTimeAttrs = [
+        "contentType",              //品番紙内容
+        "contentSubType",           //車種
+        "planNum",                  //計画数
+    ]
+
+    var myAppendGrid = {}
+
+    //提交的数据
+    var formData = {
+        "prodLine": 0,               //生产线
+        "className": 0,              //班次
+        "classType": 0,              //班制
+        "gridDatas": [],
+        "sumMinute": 0,              //时间(分钟)
+        "sumHour": 0,                //工时(小时)
+        "sumPlanNum": 0,             //計画数
+        "sumProdNum": 0,             //阶段生产
+        "sumTotalProdNum": 0,        //总生产
+        "sumRealNum": 0,             //実績统计数
+        "sumBadNum": 0,              //不良数
+        "sumTestNum": 0,             //试验品
+        "sumReuse": 0,               //再利用
+        "sumDirectOperator": 0,      //直接作业人员
+        "sumIndirectOperator": 0,    //直间作业人员
+        "sumPlanRate": 0,            //速成率=計画数/总生产*100%
+        "sumWorkTimeTypes": {
+            "2": 0,                  //稼动
+            "16": 0,                 //部品等待
+            "11": 0,                 //切换车种
+            "10": 0,                 //品质停止
+            "5": 0,                  //设备停止
+            "12": 0,                 //试做
+            "9": 0,                  //无计划
+            "19": 0                  //其他
+        },
+        "sumGoodProdRate": 0,        //良品比例
+        "sumHourRate": 0,            //工时达成率
+        "badReason": "",             //不良内容
+        "reason": "",                //特计
+    };
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            //gridDatas
+            for (var i = 0; i < myAppendGrid.getRowCount(); i++) {
+                var rowValues = myAppendGrid.getRowValue(i);
+                formData.gridDatas.push(rowValues)
+            }
+            // $.operate.save(prefix + "/edit", $('#form-leave-edit').serialize());
+            formData.prodLine = $("select[name='prodLine']").val();
+            formData.className = $("select[name='className']").val();
+            formData.classType = $("select[name='classType']").val();
+            formData.badReason = $("textarea[name='badReason']").val();
+            formData.reason = $("textarea[name='reason']").val();
+            formData.id = $("input[name='id']").val();
+            var bizLeave = [[${bizLeave}]];
+            if(bizLeave.instanceId){
+                formData.instanceId=bizLeave.instanceId
+                $.operate.saveJson(prefix + "/complete/" + bizLeave.taskId,  JSON.stringify(formData));
+            }else{
+                $.operate.saveJson(prefix + "/edit", JSON.stringify(formData));
+            }
+        }
+    }
+
+    //获取枚举
+    function getDictStr(dicts) {
+        var result = ":请选择;";
+        for (var i = 0; i < dicts.length; i++) {
+            var label = dicts[i].dictLabel;
+            var value = dicts[i].dictValue;
+            result += value + ":" + label + ";";
+        }
+        result = result.substring(0, result.length - 1);
+        return result;
+    }
+
+    function renderOptions(parent, controlId) {
+        var selectDom = document.createElement("select");
+        selectDom.classList.add("form-control");
+        selectDom.classList.add("select2-multiple");
+        selectDom.setAttribute("multiple", true);
+        selectDom.setAttribute("required", "required");
+        selectDom.setAttribute("aria-required", true);
+        selectDom.style["width"] = "100px";
+        selectDom.id = controlId;
+        selectDom.name = controlId;
+        //init options
+        var dicts = [[${@dict.getType('biz_operator')}]];
+        for (var i = 0; i < dicts.length; i++) {
+            var dict = dicts[i]
+            var optionDom = document.createElement("option");
+            optionDom.value = dict.dictValue;
+            optionDom.innerText = dict.dictLabel
+            selectDom.appendChild(optionDom);
+        }
+        parent.appendChild(selectDom);
+    }
+
+    // 监听开始和结束日期填写，动态生成时间和工时
+    function calculateTime(uniqueIndex) {
+        var rowIndex = myAppendGrid.getRowIndex(uniqueIndex);
+        var str1 = myAppendGrid.getCtrlValue("startTime", rowIndex) || 0;
+        var str2 = myAppendGrid.getCtrlValue("endTime", rowIndex) || 0;
+        if (str1 == 0 || str2 == 0) {
+            return;
+        }
+        var number1 = str1.split(":");
+        var number2 = str2.split(":");
+        var startTime = parseInt(number1[0]) * 60 + parseInt(number1[1])
+        var endTime = parseInt(number2[0]) * 60 + parseInt(number2[1])
+        if (startTime >= endTime) {
+            $.modal.alertWarning("结束时间必须大于开始时间");
+            return false;
+        }
+        //时间(单位分钟)
+        var minute = endTime - startTime;
+        myAppendGrid.setCtrlValue("minute", rowIndex, minute);
+        //工时(单位小时)
+        var hour = Math.floor(minute * 100 / 60) / 100;
+        myAppendGrid.setCtrlValue("hour", rowIndex, hour);
+        //数据统计
+        dataSummary();
+    }
+
+    function dataSummary() {
+        sumTemp = {
+            "gridDatas": [],
+            "sumMinute": 0,              //时间(分钟)
+            "sumHour": 0,                //工时(小时)
+            "sumPlanNum": 0,             //計画数
+            "sumProdNum": 0,             //阶段生产
+            "sumTotalProdNum": 0,        //总生产
+            "sumRealNum": 0,             //実績统计数
+            "sumBadNum": 0,              //不良数
+            "sumTestNum": 0,             //试验品
+            "sumReuse": 0,               //再利用
+            "sumDirectOperator": 0,      //直接作业人员
+            "sumIndirectOperator": 0,    //直间作业人员
+            "sumPlanRate": 0,            //速成率=計画数/总生产*100%
+            "sumWorkTimeTypes": {
+                "2": 0,                  //稼动
+                "16": 0,                 //部品等待
+                "11": 0,                 //切换车种
+                "10": 0,                 //品质停止
+                "5": 0,                  //设备停止
+                "12": 0,                 //试做
+                "9": 0,                  //无计划
+                "19": 0                  //其他
+            },
+            "sumGoodProdRate": 0,        //良品比例
+            "sumHourRate": 0,            //工时达成率
+            "badReason": "",             //不良内容
+            "reason": "",                //特计
+        }
+        // Get row count
+        var rowCount = myAppendGrid.getRowCount();
+        for (var i = 0; i < rowCount; i++) {
+            var minute = getAppendGridData("minute", i);
+            sumTemp.sumMinute += minute;
+            sumTemp.sumHour += getAppendGridData("hour", i);
+            //計画数
+            var planNum = getAppendGridData("planNum", i);
+            sumTemp.sumPlanNum += planNum;
+            //阶段生产
+            sumTemp.sumProdNum += getAppendGridData("prodNum", i);
+            //总生产
+            sumTemp.sumTotalProdNum += getAppendGridData("totalProdNum", i);
+            //実績统计数
+            sumTemp.sumRealNum += getAppendGridData("realNum", i);
+            //不良数
+            sumTemp.sumBadNum += getAppendGridData("badNum", i);
+            sumTemp.sumTestNum += getAppendGridData("testNum", i);
+            sumTemp.sumReuse += getAppendGridData("reuse", i);
+            sumTemp.sumDirectOperator += getAppendGridArray("directOperator", i).length
+            sumTemp.sumIndirectOperator += getAppendGridArray("indirectOperator", i).length
+            if (getAppendGridData("workTimeType", i) == 2) {
+                //稼动
+                sumTemp.sumWorkTimeTypes["2"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 16) {
+                //部品等待
+                sumTemp.sumWorkTimeTypes["16"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 11) {
+                //切换车种
+                sumTemp.sumWorkTimeTypes["11"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 10) {
+                //品质停止
+                sumTemp.sumWorkTimeTypes["10"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 5) {
+                //品质停止
+                sumTemp.sumWorkTimeTypes["5"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 12) {
+                //试做
+                sumTemp.sumWorkTimeTypes["12"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 9) {
+                //无计划
+                sumTemp.sumWorkTimeTypes["9"] += minute;
+            } else if (getAppendGridData("workTimeType", i) == 19) {
+                //其他
+                sumTemp.sumWorkTimeTypes["19"] += minute;
+            }
+        }
+        $("input[name='sumMinute']").val(sumTemp.sumMinute);
+        $("input[name='sumHour']").val(sumTemp.sumHour.toFixed(2));
+        $("input[name='sumPlanNum']").val(sumTemp.sumPlanNum);
+        $("input[name='sumProdNum']").val(sumTemp.sumProdNum);
+        $("input[name='sumTotalProdNum']").val(sumTemp.sumTotalProdNum);
+        $("input[name='sumRealNum']").val(sumTemp.sumRealNum);
+        $("input[name='sumBadNum']").val(sumTemp.sumBadNum);
+        $("input[name='sumTestNum']").val(sumTemp.sumTestNum);
+        $("input[name='sumReuse']").val(sumTemp.sumReuse);
+        $("input[name='sumDirectOperator']").val(sumTemp.sumDirectOperator);
+        $("input[name='sumIndirectOperator']").val(sumTemp.sumIndirectOperator);
+        // 速成率=实际统计数/计划数 *100%
+        sumTemp.sumPlanRate += (sumTemp.sumRealNum * 100 / sumTemp.sumPlanNum)
+        sumTemp.sumPlanRate = sumTemp.sumPlanRate.toFixed(2)
+        $("input[name='sumPlanRate']").val(sumTemp.sumPlanRate);
+        //稼动
+        $("input[name='sumWorkTimeType2']").val(sumTemp.sumWorkTimeTypes["2"]);
+        //部品等待
+        $("input[name='sumWorkTimeType16']").val(sumTemp.sumWorkTimeTypes["16"]);
+        //切换车种
+        $("input[name='sumWorkTimeType11']").val(sumTemp.sumWorkTimeTypes["11"]);
+        //品质停止
+        $("input[name='sumWorkTimeType10']").val(sumTemp.sumWorkTimeTypes["10"]);
+        //设备停止
+        $("input[name='sumWorkTimeType5']").val(sumTemp.sumWorkTimeTypes["5"]);
+        //试做
+        $("input[name='sumWorkTimeType12']").val(sumTemp.sumWorkTimeTypes["12"]);
+        //无计划
+        $("input[name='sumWorkTimeType9']").val(sumTemp.sumWorkTimeTypes["9"]);
+        //其他
+        $("input[name='sumWorkTimeType19']").val(sumTemp.sumWorkTimeTypes["19"]);
+        //良品比例=(実績统计数-不良数)/実績统计数 *100%
+        if (sumTemp.sumRealNum > 0) {
+            sumTemp.sumGoodProdRate += (sumTemp.sumRealNum - sumTemp.sumBadNum) * 100 / sumTemp.sumRealNum;
+            sumTemp.sumGoodProdRate = sumTemp.sumGoodProdRate.toFixed(2)
+            $("input[name='sumGoodProdRate']").val(sumTemp.sumGoodProdRate);
+        }
+        //工时达成率
+        sumTemp.sumHourRate += sumTemp.sumHour * 100 / 8;
+        sumTemp.sumHourRate = sumTemp.sumHourRate.toFixed(2)
+        $("input[name='sumHourRate']").val(sumTemp.sumHourRate);
+        formData = sumTemp;
+    }
+
+    function getAppendGridArray(fieldName, rowIndex) {
+        var res = myAppendGrid.getCtrlValue(fieldName, rowIndex);
+        return res;
+    }
+
+    function getAppendGridData(fieldName, rowIndex) {
+        var minute = parseFloat(myAppendGrid.getCtrlValue(fieldName, rowIndex));
+        return isNaN(minute) ? 0 : minute
+    }
+
+    // 监听A字段，动态生成B字段
+    function dictCacadeChange(dicts, fieldName, secondFieldName, uniqueIndex) {
+        var rowIndex = myAppendGrid.getRowIndex(uniqueIndex);
+        var value = myAppendGrid.getCtrlValue(fieldName, rowIndex) || 0;
+        if (value == 0) {
+            return;
+        }
+        for (var i = 0; i < dicts.length; i++) {
+            var obj = dicts[i];
+            if (obj.dictValue == value) {
+                var contentSubTypes = $.parseJSON(obj.remark);
+                //级联的字段
+                myAppendGrid.setCtrlValue(secondFieldName, rowIndex, contentSubTypes);
+                break;
+            }
+        }
+    }
+
+    function enableAttrs(fieldNames, rowIndex) {
+        for (var i = 0; i < fieldNames.length; i++) {
+            enableAttr(fieldNames[i], rowIndex);
+        }
+    }
+
+    function enableAttr(fieldName, rowIndex) {
+        var field = myAppendGrid.getCellCtrl(fieldName, rowIndex);
+        field.setAttribute("required", "required");
+        $("#" + field.id).removeAttr("disabled")
+    }
+
+    function disableAttrs(fieldNames, rowIndex) {
+        for (var i = 0; i < fieldNames.length; i++) {
+            disableAttr(fieldNames[i], rowIndex);
+        }
+    }
+
+    function disableAttr(fieldName, rowIndex) {
+        myAppendGrid.setCtrlValue(fieldName, rowIndex, null);
+        var field = myAppendGrid.getCellCtrl(fieldName, rowIndex);
+        $("#" + field.id).removeAttr("required")
+        field.setAttribute("disabled", true);
+    }
+
+    // 监听时间类型填写
+    function workTimeTypeChange(uniqueIndex) {
+        var rowIndex = myAppendGrid.getRowIndex(uniqueIndex);
+        var value = myAppendGrid.getCtrlValue("workTimeType", rowIndex) || 0;
+        //始件
+        if (value == 1) {
+            enableAttrs(beginWorkTimeAttrs, rowIndex);
+            disableAttrs(repairAttrs, rowIndex);
+        } else {
+            //设备停止
+            if (value == 5) {
+                enableAttrs(repairAttrs, rowIndex);
+            } else {
+                disableAttrs(repairAttrs, rowIndex);
+            }
+            disableAttrs(beginWorkTimeAttrs, rowIndex);
+        }
+        dataSummary();
+    }
+
+    function getCtrlAttr(ctrlAttr){
+        var disabled = [[${disabled}]]
+        if(disabled){
+            ctrlAttr.disabled = true
+        }
+        return ctrlAttr
+    }
+
+    $(function () {
+        //https://appendgrid.apphb.com/Documentation#link-cellClass
+        myAppendGrid = new AppendGrid({
+            element: "tblAppendGrid",
+            uiFramework: "bootstrap4",
+            iconFramework: "fontawesome5",
+            // Hide the row number column
+            hideRowNumColumn: true,
+            // Put the row button in front
+            rowButtonsInFront: true,
+            initData: [[${bizLeave}]].gridDatas,
+            columns: [
+                {
+                    name: "startTime",
+                    display: "检查开始时间",
+                    type: "time",
+                    ctrlAttr: getCtrlAttr({required: "required"}),
+                    ctrlCss: {
+                        "max-width": "200px"
+                    },
+                    // cellClass: "calcTotalSecondInput",
+                    events: {
+                        change: function (e) {
+                            calculateTime(e.uniqueIndex);
+                        }
+                    }
+                },
+                {
+                    name: "endTime",
+                    display: "检查结束时间",
+                    type: "time",
+                    ctrlAttr: getCtrlAttr({required: "required"}),
+                    ctrlCss: {
+                        "max-width": "200px"
+                    },
+                    // cellClass: "calcTotalSecondInput",
+                    events: {
+                        change: function (e) {
+                            calculateTime(e.uniqueIndex);
+                        }
+                    }
+                },
+                {
+                    name: "workTimeType",
+                    display: "时间类型",
+                    ctrlAttr: getCtrlAttr({required: "required"}),
+                    type: "select",
+                    ctrlOptions: getDictStr([[${@dict.getType('biz_work_time_type')}]]),
+                    ctrlCss: {
+                        "min-width": "100px",
+                        "max-width": "100px"
+                    },
+                    events: {
+                        change: function (e) {
+                            workTimeTypeChange(e.uniqueIndex);
+                        }
+                    }
+                },
+                {
+                    name: "minute",
+                    display: "时间",
+                    type: "readonly",
+                    ctrlCss: {
+                        "max-width": "40px",
+                        "background-color": "#ececec"
+                    },
+                    ctrlAttr: {required: "required"}
+                },
+                {
+                    name: "hour",
+                    display: "工时",
+                    type: "readonly",
+                    ctrlCss: {
+                        "max-width": "40px",
+                        "background-color": "#ececec"
+                    },
+                    ctrlAttr: {required: "required"},
+                },
+                {
+                    name: "contentType",
+                    display: "品番紙内容",
+                    ctrlAttr: getCtrlAttr({required: "required"}),
+                    type: "select",
+                    ctrlOptions: getDictStr(biz_content_types),
+                    ctrlCss: {
+                        "min-width": "120px",
+                        "max-width": "120px"
+                    },
+                    events: {
+                        change: function (e) {
+                            dictCacadeChange(biz_content_types, "contentType", "contentSubType", e.uniqueIndex)
+                        }
+                    }
+                },
+                {
+                    name: "contentSubType",
+                    display: "車種",
+                    ctrlAttr: {required: "required"},
+                    type: "readonly",
+                    ctrlCss: {
+                        "background-color": "#ececec",
+                        "max-width": "110px"
+                    },
+                },
+                {
+                    name: "planNum",
+                    display: "計画数",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "100px"
+                    },
+                    ctrlAttr: getCtrlAttr({
+                        required: "required",
+                        min: 0
+                    }),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "prodNum",
+                    display: "阶段生产",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "100px"
+                    },
+                    ctrlAttr: getCtrlAttr({
+                        required: "required",
+                        min: 0
+                    }),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "totalProdNum",
+                    display: "总生产",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "100px"
+                    },
+                    ctrlAttr: getCtrlAttr({
+                        required: "required",
+                        min: 0
+                    }),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "realNum",
+                    display: "実績统计数",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "80px"
+                    },
+                    ctrlAttr: getCtrlAttr({
+                        required: "required",
+                        min: 0
+                    }),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "badNum",
+                    display: "不良数",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "80px"
+                    },
+                    ctrlAttr: getCtrlAttr({}),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "testNum",
+                    display: "试验品",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "80px"
+                    },
+                    ctrlAttr: getCtrlAttr({}),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "reuse",
+                    display: "再利用",
+                    type: "number",
+                    ctrlCss: {
+                        "max-width": "80px"
+                    },
+                    ctrlAttr: getCtrlAttr({}),
+                    events: {
+                        change: function (e) {
+                            dataSummary();
+                        }
+                    }
+                },
+                {
+                    name: "directOperator",
+                    display: "直接作业人员",
+                    type: "custom",
+                    ctrlAttr: getCtrlAttr({}),
+                    customBuilder: function (parent, idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        renderOptions(parent, controlId);
+                    },
+                    customGetter: function (idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        var result = [];
+                        var res = $("#" + controlId + " option:selected").each(function () {
+                            result.push($(this).val());
+                        })
+                        // return document.getElementById(controlId).value;
+                        return result;
+                    },
+                    customSetter: function (idPrefix, name, uniqueIndex, value) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        document.getElementById(controlId).value = value;
+                    }
+                },
+                {
+                    name: "indirectOperator",
+                    display: "直间作业人员",
+                    type: "custom",
+                    customBuilder: function (parent, idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        renderOptions(parent, controlId);
+                    },
+                    customGetter: function (idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        var result = [];
+                        var res = $("#" + controlId + " option:selected").each(function () {
+                            result.push($(this).val());
+                        })
+                        // return document.getElementById(controlId).value;
+                        return result;
+                    },
+                    customSetter: function (idPrefix, name, uniqueIndex, value) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        document.getElementById(controlId).value = value;
+                    }
+                },
+                {
+                    name: "repairDeviceNum",
+                    display: "维修设备编号",
+                    type: "select",
+                    ctrlOptions: getDictStr([[${@dict.getType('biz_repair_device')}]]),
+                    ctrlCss: {
+                        "min-width": "90px",
+                        "max-width": "90px"
+                    },
+                    ctrlAttr: {
+                        disabled: "disabled"
+                    },
+                    events: {
+                        change: function (e) {
+                            dictCacadeChange(biz_repair_device, "repairDeviceNum", "repairDeviceName", e.uniqueIndex)
+                        }
+                    }
+                },
+                {
+                    name: "repairDeviceName",
+                    display: "维修设备名称",
+                    type: "readonly",
+                    ctrlCss: {
+                        "background-color": "#ececec",
+                        "max-width": "80px"
+                    },
+                    ctrlAttr: {
+                        disabled: "disabled"
+                    }
+                },
+                {
+                    name: "repairOrder",
+                    display: "维修单号",
+                    ctrlCss: {
+                        "max-width": "130px"
+                    },
+                    ctrlAttr: {
+                        disabled: "disabled"
+                    }
+                },
+                {
+                    name: "repairReason",
+                    display: "停止原因",
+                    type: "select",
+                    ctrlOptions: getDictStr([[${@dict.getType('biz_repair_reason')}]]),
+                    ctrlCss: {
+                        "max-width": "130px"
+                    },
+                    ctrlAttr: {
+                        disabled: "disabled"
+                    }
+                },
+                {
+                    name: "repairOperator",
+                    display: "维修人员",
+                    ctrlAttr: {disabled: "disabled"},
+                    type: "select",
+                    ctrlOptions: getDictStr([[${@dict.getType('biz_repair_operator')}]]),
+                    ctrlCss: {
+                        "min-width": "130px"
+                    }
+                },
+            ],
+            // Hide the two remove buttons
+            hideButtons: {
+                // remove: true,
+                removeLast: true
+            },
+            afterRowInserted: function (caller, rowIndex) {
+                renderSelect2();
+            },
+            afterRowAppended: function (caller, rowIndex) {
+                renderSelect2();
+            },
+        });
+
+        //trigger render
+        renderSelect2();
+        //触发数据统计
+        dataSummary();
+    })
+
+    function renderSelect2(){
+        $(".select2-multiple").select2({
+            placeholder: "请选择",
+            tags: true,
+            // theme: "classic",
+            width: 'resolve', // need to override the changed default
+            createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // add additional parameters
+                }
+            }
+        }).on('change', function (e) {
+            dataSummary()
+        });
+    }
+</script>
+</body>
+</html>
