@@ -80,12 +80,20 @@
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
                 and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
+            <if test="params.deptLeader">
+                and t1.instance_id is not null
+            </if>
         </where>
     </select>
 
     <select id="selectBizLeaveById" parameterType="Long" resultMap="BizLeaveResult">
         <include refid="selectBizLeaveVo"/>
         where id = #{id}
+    </select>
+
+    <select id="selectBizLeaveByInstanceId" parameterType="String" resultMap="BizLeaveResult">
+        <include refid="selectBizLeaveVo"/>
+        where instance_id = #{instanceId}
     </select>
 
     <insert id="insertBizLeave" parameterType="BizLeaveVo" useGeneratedKeys="true" keyProperty="id">

@@ -11,6 +11,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysRoleService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -22,10 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 电子日报Controller
@@ -46,6 +44,8 @@ public class BizLeaveController extends BaseController {
     private RuntimeService runtimeService;
     @Autowired
     private IProcessService processService;
+    @Autowired
+    private ISysRoleService roleService;
 
     @GetMapping()
     public String leave(ModelMap mmap) {
@@ -59,7 +59,13 @@ public class BizLeaveController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(BizLeaveVo bizLeave) {
-        if (!SysUser.isAdmin(ShiroUtils.getUserId())) {
+//        if (!SysUser.isAdmin(ShiroUtils.getUserId())) {
+//            bizLeave.setCreateBy(ShiroUtils.getLoginName());
+//        }
+        Set<String> roleKeys = roleService.selectRoleKeys(ShiroUtils.getUserId());
+        if (roleKeys.contains("deptLeader")) {
+            bizLeave.getParams().put("deptLeader", true);
+        } else {
             bizLeave.setCreateBy(ShiroUtils.getLoginName());
         }
         bizLeave.setType("leave");
@@ -130,7 +136,7 @@ public class BizLeaveController extends BaseController {
      * 删除电子日报
      */
     @Log(title = "电子日报", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
         return toAjax(bizLeaveService.deleteBizLeaveByIds(ids));
@@ -140,7 +146,7 @@ public class BizLeaveController extends BaseController {
      * 提交申请
      */
     @Log(title = "电子日报", businessType = BusinessType.UPDATE)
-    @PostMapping( "/submitApply")
+    @PostMapping("/submitApply")
     @ResponseBody
     public AjaxResult submitApply(Long id) {
         BizLeaveVo leave = bizLeaveService.selectBizLeaveById(id);
@@ -156,6 +162,7 @@ public class BizLeaveController extends BaseController {
 
     /**
      * 我的待办列表
+     *
      * @return
      */
     @PostMapping("/taskList")
@@ -168,6 +175,7 @@ public class BizLeaveController extends BaseController {
 
     /**
      * 加载审批弹窗
+     *
      * @param taskId
      * @param mmap
      * @return
@@ -201,8 +209,7 @@ public class BizLeaveController extends BaseController {
     @ResponseBody
     public AjaxResult complete(@PathVariable("taskId") String taskId, @RequestBody BizLeaveVo leave, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        map.put("reApply", true);
-        processService.complete(taskId, leave.getInstanceId(), leave.getTitle(), leave.getReason(), "leave", map, request);
+        processService.complete(taskId, leave.getInstanceId(),null, null, "leave", map, request);
         bizLeaveService.updateBizLeave(leave);
         return success("任务已完成");
     }
@@ -225,6 +232,7 @@ public class BizLeaveController extends BaseController {
 
     /**
      * 我的已办列表
+     *
      * @param bizLeave
      * @return
      */

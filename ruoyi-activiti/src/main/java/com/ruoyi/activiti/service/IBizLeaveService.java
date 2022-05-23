@@ -7,59 +7,67 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 请假业务Service接口
+ * 电子日报Service接口
  *
  * @author Xianlu Tech
  * @date 2019-10-11
  */
 public interface IBizLeaveService {
     /**
-     * 查询请假业务
+     * 查询电子日报
      *
-     * @param id 请假业务ID
-     * @return 请假业务
+     * @param id 电子日报ID
+     * @return 电子日报
      */
-    public BizLeaveVo selectBizLeaveById(Long id);
+    BizLeaveVo selectBizLeaveById(Long id);
 
     /**
-     * 查询请假业务列表
+     * 查询电子日报
      *
-     * @param BizLeaveVo 请假业务
-     * @return 请假业务集合
+     * @param instanceId 流程ID
+     * @return 电子日报
      */
-    public List<BizLeaveVo> selectBizLeaveList(BizLeaveVo BizLeaveVo);
+    BizLeaveVo selectBizLeaveByInstanceId(String instanceId);
 
     /**
-     * 新增请假业务
+     * 查询电子日报列表
      *
-     * @param BizLeaveVo 请假业务
+     * @param BizLeaveVo 电子日报
+     * @return 电子日报集合
+     */
+    List<BizLeaveVo> selectBizLeaveList(BizLeaveVo BizLeaveVo);
+
+    /**
+     * 新增电子日报
+     *
+     * @param BizLeaveVo 电子日报
      * @return 结果
      */
-    public int insertBizLeave(BizLeaveVo BizLeaveVo);
+    int insertBizLeave(BizLeaveVo BizLeaveVo);
 
     /**
-     * 修改请假业务
+     * 修改电子日报
      *
-     * @param BizLeaveVo 请假业务
+     * @param BizLeaveVo 电子日报
      * @return 结果
      */
-    public int updateBizLeave(BizLeaveVo BizLeaveVo);
+    int updateBizLeave(BizLeaveVo BizLeaveVo);
 
     /**
-     * 批量删除请假业务
+     * 批量删除电子日报
      *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteBizLeaveByIds(String ids);
+    int deleteBizLeaveByIds(String ids);
 
     /**
-     * 删除请假业务信息
+     * 删除电子日报信息
      *
-     * @param id 请假业务ID
+     * @param id 电子日报ID
      * @return 结果
      */
-    public int deleteBizLeaveById(Long id);
+    int deleteBizLeaveById(Long id);
 
     /**
      * 启动流程

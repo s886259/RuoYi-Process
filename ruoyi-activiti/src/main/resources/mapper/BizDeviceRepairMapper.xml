@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.BizDeviceRepairMapper">
+
+    <resultMap type="BizDeviceRepair" id="BizLeaveResult">
+        <result property="id" column="id"/>
+        <result property="prodLine" column="prod_line"/>
+        <result property="className" column="class_name"/>
+        <result property="classType" column="class_type"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="instanceId" column="instance_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="failureMode" column="failure_mode"/>
+        <result property="minute" column="minute"/>
+        <result property="repairDeviceNum" column="repair_device_num"/>
+        <result property="repairDeviceName" column="repair_device_name"/>
+        <result property="repairReason" column="repair_reason"/>
+        <result property="repairOperator" column="repair_operator"/>
+        <result property="region" column="region"/>
+        <result property="week" column="week"/>
+        <result property="month" column="month"/>
+        <result property="scoreRegion" column="score_region"/>
+        <result property="responsiblePerson" column="responsible_person" typeHandler="com.ruoyi.framework.handlers.ListTypeHandler"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="selectBizLeaveVo">
+        select *
+        from biz_device_repair
+    </sql>
+
+    <select id="selectList" parameterType="BizLeaveVo" resultMap="BizLeaveResult">
+        <include refid="selectBizLeaveVo"/>
+        <where>
+            1=1
+            <if test="prodLine != null  and prodLine != ''">and prod_line = #{prodLine}</if>
+            <if test="className != null  and className != ''">and class_name = #{className}</if>
+            <if test="classType != null  and classType != ''">and class_type = #{classType}</if>
+            <if test="instanceId != null  and instanceId != ''">and instance_id = #{instanceId}</if>
+            <if test="startTime != null ">and start_time = #{startTime}</if>
+            <if test="endTime != null ">and end_time = #{endTime}</if>
+            <if test="createBy != null  and createBy != ''">and create_by = #{createBy}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="Long" resultMap="BizLeaveResult">
+        <include refid="selectBizLeaveVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectByInstanceId" parameterType="String" resultMap="BizLeaveResult">
+        <include refid="selectBizLeaveVo"/>
+        where instance_id = #{instanceId}
+    </select>
+
+    <insert id="insert" parameterType="BizLeaveVo" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_device_repair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="prodLine != null  and prodLine != ''">prod_line,</if>
+            <if test="className != null  and className != ''">class_name,</if>
+            <if test="classType != null  and classType != ''">class_type,</if>
+            <if test="startTime != null ">start_time,</if>
+            <if test="endTime != null ">end_time,</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="failureMode != null ">failure_mode,</if>
+            <if test="minute != null ">minute,</if>
+            <if test="repairDeviceNum != null ">repair_device_num,</if>
+            <if test="repairDeviceName != null ">repair_device_name,</if>
+            <if test="repairReason != null ">repair_reason,</if>
+            <if test="repairOperator != null ">repair_operator,</if>
+            <if test="region != null ">region,</if>
+            <if test="week != null ">week,</if>
+            <if test="month != null ">month,</if>
+            <if test="scoreRegion != null ">score_region,</if>
+            <if test="responsiblePerson != null ">responsible_person</if>
+            <if test="status != null ">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="prodLine != null  and prodLine != ''">#{prodLine},</if>
+            <if test="className != null  and className != ''">#{className},</if>
+            <if test="classType != null  and classType != ''">#{classType},</if>
+            <if test="startTime != null ">#{startTime},</if>
+            <if test="endTime != null ">#{endTime},</if>
+            <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="failureMode != null ">#{failureMode},</if>
+            <if test="minute != null ">#{minute},</if>
+            <if test="repairDeviceNum != null ">#{repairDeviceNum},</if>
+            <if test="repairDeviceName != null ">#{repairDeviceName},</if>
+            <if test="repairReason != null ">#{repairReason},</if>
+            <if test="repairOperator != null ">#{repairOperator},</if>
+            <if test="region != null ">#{region},</if>
+            <if test="week != null ">#{week},</if>
+            <if test="month != null ">#{month},</if>
+            <if test="scoreRegion != null ">#{scoreRegion},</if>
+            <if test="responsiblePerson != null ">#{responsiblePerson}</if>
+            <if test="status != null ">#{status}</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="BizLeaveVo">
+        update biz_device_repair
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="prodLine != null  and prodLine != ''">prod_line = #{prodLine},</if>
+            <if test="className != null  and className != ''">class_name = #{className},</if>
+            <if test="classType != null  and classType != ''">class_type = #{classType},</if>
+            <if test="startTime != null ">start_time = #{startTime},</if>
+            <if test="endTime != null ">end_time = #{endTime},</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id= #{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">create_by= #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="failureMode != null ">failure_mode = #{failureMode},</if>
+            <if test="minute != null ">minute = #{minute},</if>
+            <if test="repairDeviceNum != null ">repair_device_num = #{repairDeviceNum},</if>
+            <if test="repairDeviceName != null ">repair_device_name = #{repairDeviceName},</if>
+            <if test="repairReason != null ">repair_reason = #{repairReason},</if>
+            <if test="repairOperator != null ">repair_operator = #{repairOperator},</if>
+            <if test="region != null ">region = #{region},</if>
+            <if test="week != null ">week = #{week},</if>
+            <if test="month != null ">month = #{month},</if>
+            <if test="scoreRegion != null ">score_region = #{scoreRegion},</if>
+            <if test="responsiblePerson != null ">responsible_person = #{responsiblePerson}</if>
+            <if test="status != null ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+</mapper>

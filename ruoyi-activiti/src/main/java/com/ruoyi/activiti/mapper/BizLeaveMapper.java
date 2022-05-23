@@ -6,57 +6,65 @@ import com.ruoyi.activiti.domain.BizLeaveVo;
 import java.util.List;
 
 /**
- * 请假业务Mapper接口
+ * 电子日报业务Mapper接口
  *
  * @author Xianlu Tech
  * @date 2019-10-11
  */
 public interface BizLeaveMapper extends BaseMapper {
     /**
-     * 查询请假业务
+     * 查询电子日报业务
      *
-     * @param id 请假业务ID
+     * @param id 电子日报业务ID
      * @return 请假业务
      */
-    public BizLeaveVo selectBizLeaveById(Long id);
+    BizLeaveVo selectBizLeaveById(Long id);
 
     /**
-     * 查询请假业务列表
+     * 查询电子日报业务
      *
-     * @param bizLeave 请假业务
-     * @return 请假业务集合
+     * @param instanceId 电子日报业务ID
+     * @return 电子日报业务
      */
-    public List<BizLeaveVo> selectBizLeaveList(BizLeaveVo bizLeave);
+    BizLeaveVo selectBizLeaveByInstanceId(String instanceId);
 
     /**
-     * 新增请假业务
+     * 查询电子日报业务列表
      *
-     * @param bizLeave 请假业务
+     * @param bizLeave 电子日报业务
+     * @return 电子日报业务集合
+     */
+    List<BizLeaveVo> selectBizLeaveList(BizLeaveVo bizLeave);
+
+    /**
+     * 新增电子日报业务
+     *
+     * @param bizLeave 请电子日报业务
      * @return 结果
      */
-    public int insertBizLeave(BizLeaveVo bizLeave);
+    int insertBizLeave(BizLeaveVo bizLeave);
 
     /**
-     * 修改请假业务
+     * 修改电子日报业务
      *
-     * @param bizLeave 请假业务
+     * @param bizLeave 电子日报业务
      * @return 结果
      */
-    public int updateBizLeave(BizLeaveVo bizLeave);
+    int updateBizLeave(BizLeaveVo bizLeave);
 
     /**
-     * 删除请假业务
+     * 删除电子日报业务
      *
-     * @param id 请假业务ID
+     * @param id 电子日报业务ID
      * @return 结果
      */
-    public int deleteBizLeaveById(Long id);
+    int deleteBizLeaveById(Long id);
 
     /**
-     * 批量删除请假业务
+     * 批量删除电子日报业务
      *
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteBizLeaveByIds(String[] ids);
+    int deleteBizLeaveByIds(String[] ids);
 }

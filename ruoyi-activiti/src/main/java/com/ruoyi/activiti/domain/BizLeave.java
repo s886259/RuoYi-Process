@@ -1,5 +1,6 @@
 package com.ruoyi.activiti.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 请假业务对象 biz_leave
+ * 电子日报对象 biz_leave
  *
  * @author Xianlu Tech
  * @date 2019-10-11
@@ -55,10 +56,12 @@ public class BizLeave extends BaseEntity {
 
     /** 开始时间 */
     @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
 
     /** 结束时间 */
     @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 
     /** 请假时长，单位秒 */
@@ -75,12 +78,15 @@ public class BizLeave extends BaseEntity {
 
     /** 申请时间 */
     @Excel(name = "申请时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date applyTime;
 
     /** 实际开始时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date realityStartTime;
 
     /** 实际结束时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date realityEndTime;
 
     /**

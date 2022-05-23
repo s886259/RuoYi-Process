@@ -387,12 +387,15 @@
             formData.reason = $("textarea[name='reason']").val();
             formData.id = $("input[name='id']").val();
             var bizLeave = [[${bizLeave}]];
-            if(bizLeave.instanceId){
-                formData.instanceId=bizLeave.instanceId
-                $.operate.saveJson(prefix + "/complete/" + bizLeave.taskId,  JSON.stringify(formData));
-            }else{
-                $.operate.saveJson(prefix + "/edit", JSON.stringify(formData));
-            }
+            // if (bizLeave.instanceId) {
+            //     formData.instanceId = bizLeave.instanceId
+            //     $.operate.saveJson(prefix + "/complete/" + bizLeave.taskId+"?p_B_flag=true", JSON.stringify(formData));
+            // } else {
+            //     var url = prefix + "/edit";
+            //     $.operate.saveJson(url, JSON.stringify(formData));
+            // }
+            var url = prefix + "/edit";
+            $.operate.saveJson(url, JSON.stringify(formData));
         }
     }
 
@@ -650,9 +653,9 @@
         dataSummary();
     }
 
-    function getCtrlAttr(ctrlAttr){
+    function getCtrlAttr(ctrlAttr) {
         var disabled = [[${disabled}]]
-        if(disabled){
+        if (disabled) {
             ctrlAttr.disabled = true
         }
         return ctrlAttr
@@ -999,7 +1002,7 @@
         dataSummary();
     })
 
-    function renderSelect2(){
+    function renderSelect2() {
         $(".select2-multiple").select2({
             placeholder: "请选择",
             tags: true,

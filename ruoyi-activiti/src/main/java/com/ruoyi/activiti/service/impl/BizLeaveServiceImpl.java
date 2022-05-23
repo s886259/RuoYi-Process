@@ -30,9 +30,10 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
- * 请假业务Service业务层处理
+ * 电子日报业务Service业务层处理
  *
  * @author Xianlu Tech
  * @date 2019-10-11
@@ -54,10 +55,10 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
     private IProcessService processService;
 
     /**
-     * 查询请假业务
+     * 查询电子日报业务
      *
-     * @param id 请假业务ID
-     * @return 请假业务
+     * @param id 电子日报业务ID
+     * @return 电子日报业务
      */
     @Override
     public BizLeaveVo selectBizLeaveById(Long id) {
@@ -67,21 +68,49 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
             leave.setApplyUserName(sysUser.getUserName());
         }
 
-        Task task = taskService.createTaskQuery()
-                .processInstanceId(leave.getInstanceId())
-                .singleResult();
-        if(task != null){
-            leave.setTaskName(task.getName());
-            leave.setTaskId(task.getId());
+        if (Objects.nonNull(leave.getInstanceId())) {
+            Task task = taskService.createTaskQuery()
+                    .processInstanceId(leave.getInstanceId())
+                    .singleResult();
+            if (task != null) {
+                leave.setTaskName(task.getName());
+                leave.setTaskId(task.getId());
+            }
         }
         return leave;
     }
 
     /**
-     * 查询请假业务列表
+     * 查询电子日报业务
      *
-     * @param bizLeave 请假业务
-     * @return 请假业务
+     * @param instanceId 流程ID
+     * @return 电子日报业务
+     */
+    @Override
+    public BizLeaveVo selectBizLeaveByInstanceId(String instanceId) {
+        BizLeaveVo leave = bizLeaveMapper.selectBizLeaveByInstanceId(instanceId);
+        SysUser sysUser = userMapper.selectUserByLoginName(leave.getApplyUser());
+        if (sysUser != null) {
+            leave.setApplyUserName(sysUser.getUserName());
+        }
+
+        if (Objects.nonNull(leave.getInstanceId())) {
+            Task task = taskService.createTaskQuery()
+                    .processInstanceId(leave.getInstanceId())
+                    .singleResult();
+            if (task != null) {
+                leave.setTaskName(task.getName());
+                leave.setTaskId(task.getId());
+            }
+        }
+        return leave;
+    }
+
+    /**
+     * 查询电子日报业务列表
+     *
+     * @param bizLeave 电子日报业务
+     * @return 电子日报业务
      */
     @Override
     public List<BizLeaveVo> selectBizLeaveList(BizLeaveVo bizLeave) {
@@ -92,7 +121,7 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
         // PageHelper 仅对第一个 List 分页
         Page<BizLeaveVo> list = (Page<BizLeaveVo>) bizLeaveMapper.selectBizLeaveList(bizLeave);
         Page<BizLeaveVo> returnList = new Page<>();
-        for (BizLeaveVo leave: list) {
+        for (BizLeaveVo leave : list) {
             SysUser sysUser = userMapper.selectUserByLoginName(leave.getCreateBy());
             if (sysUser != null) {
                 if (StringUtils.isBlank(sysUser.getRemark())) {
@@ -137,9 +166,9 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
     }
 
     /**
-     * 新增请假业务
+     * 新增电子日报业务
      *
-     * @param bizLeave 请假业务
+     * @param bizLeave 电子日报业务
      * @return 结果
      */
     @Override
@@ -150,9 +179,9 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
     }
 
     /**
-     * 修改请假业务
+     * 修改电子日报业务
      *
-     * @param bizLeave 请假业务
+     * @param bizLeave 电子日报业务
      * @return 结果
      */
     @Override
@@ -162,7 +191,7 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
     }
 
     /**
-     * 删除请假业务对象
+     * 删除电子日报业务对象
      *
      * @param ids 需要删除的数据ID
      * @return 结果
@@ -173,9 +202,9 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
     }
 
     /**
-     * 删除请假业务信息
+     * 删除电子日报业务信息
      *
-     * @param id 请假业务ID
+     * @param id 电子日报业务ID
      * @return 结果
      */
     @Override
@@ -185,6 +214,7 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
 
     /**
      * 启动流程
+     *
      * @param entity
      * @param applyUserId
      * @return
@@ -259,6 +289,7 @@ public class BizLeaveServiceImpl implements IBizLeaveService {
 
     /**
      * 查询已办列表
+     *
      * @param bizLeave
      * @param userId
      * @return

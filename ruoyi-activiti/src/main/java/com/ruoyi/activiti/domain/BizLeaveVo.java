@@ -1,5 +1,6 @@
 package com.ruoyi.activiti.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,6 +20,7 @@ public class BizLeaveVo extends BizLeave {
     private String taskName;
 
     /** 办理时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date doneTime;
 
     /** 创建人 */
