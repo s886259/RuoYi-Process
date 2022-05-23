@@ -1,86 +1,61 @@
 #!/bin/bash
-
-AppName=RuoYi.jar
-
-#JVM参数
-JVM_OPTS="-Dname=$AppName  -Duser.timezone=Asia/Shanghai -Xms512M -Xmx512M -XX:PermSize=256M -XX:MaxPermSize=512M -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintGCDateStamps  -XX:+PrintGCDetails -XX:NewRatio=1 -XX:SurvivorRatio=30 -XX:+UseParallelGC -XX:+UseParallelOldGC"
-APP_HOME=`pwd`
-LOG_PATH=$APP_HOME/logs/$AppName.log
-
-if [ "$1" = "" ];
-then
-    echo -e "\033[0;31m 未输入操作名 \033[0m  \033[0;34m {start|stop|restart|status} \033[0m"
+APP_NAME=ruoyi-admin.jar
+usage() {
+    echo "用法: sh start.sh [start(启动)|stop(停止)|restart(重启)|status(状态)]"
     exit 1
-fi
-
-if [ "$AppName" = "" ];
-then
-    echo -e "\033[0;31m 未输入应用名 \033[0m"
-    exit 1
-fi
-
-function start()
-{
-    PID=`ps -ef |grep java|grep $AppName|grep -v grep|awk '{print $2}'`
-
-	if [ x"$PID" != x"" ]; then
-	    echo "$AppName is running..."
-	else
-		nohup java -jar  $JVM_OPTS target/$AppName > /dev/null 2>&1 &
-		echo "Start $AppName success..."
-	fi
 }
-
-function stop()
-{
-    echo "Stop $AppName"
-	
-	PID=""
-	query(){
-		PID=`ps -ef |grep java|grep $AppName|grep -v grep|awk '{print $2}'`
-	}
-
-	query
-	if [ x"$PID" != x"" ]; then
-		kill -TERM $PID
-		echo "$AppName (pid:$PID) exiting..."
-		while [ x"$PID" != x"" ]
-		do
-			sleep 1
-			query
-		done
-		echo "$AppName exited."
-	else
-		echo "$AppName already stopped."
-	fi
+is_exist(){
+  pid=`ps -ef|grep $APP_NAME|grep -v grep|awk '{print $2}' `
+  if [ -z "${pid}" ]; then
+   return 1
+  else
+    return 0
+  fi
 }
-
-function restart()
-{
-    stop
-    sleep 2
-    start
-}
-
-function status()
-{
-    PID=`ps -ef |grep java|grep $AppName|grep -v grep|wc -l`
-    if [ $PID != 0 ];then
-        echo "$AppName is running..."
-    else
-        echo "$AppName is not running..."
+start(){
+  is_exist
+  if [ $? -eq "0" ]; then
+    echo "${APP_NAME} 正在运行。 pid=${pid} ."
+  else
+    nohup java -server -Xms2048m -Xmx2048m -Xmn680m -jar ./target/${APP_NAME} > /dev/null 2>&1 &
+    echo "${APP_NAME}启动 成功，请查看日志确保运行正常。"
     fi
 }
-
-case $1 in
-    start)
-    start;;
-    stop)
-    stop;;
-    restart)
-    restart;;
-    status)
-    status;;
-    *)
-
+stop(){
+  is_exist
+  if [ $? -eq "0" ]; then
+    kill -9 $pid
+    echo "${pid} 进程已被杀死，程序停止运行"
+  else
+    echo "${APP_NAME} 没有运行。"
+  fi
+}
+status(){
+  is_exist
+  if [ $? -eq "0" ]; then
+    echo "${APP_NAME} 正在运行。Pid is ${pid}"
+  else
+    echo "${APP_NAME} 没有运行。"
+  fi
+}
+restart(){
+  stop
+  start
+}
+case "$1" in
+  "start")
+    start
+    ;;
+  "stop")
+    stop
+    ;;
+  "status")
+    status
+    ;;
+  "restart")
+    restart
+    ;;
+  *)
+    usage
+    ;;
 esac
