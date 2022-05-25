@@ -7,7 +7,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-leave-edit" th:object="${bizLeave}">
+    <form class="form-horizontal m" id="form-leave-edit" th:object="${bizLeave}" style="overflow: scroll;">
         <input name="id" th:field="*{id}" type="hidden">
         <h1>基本信息</h1>
         <div class="container-div">
@@ -770,7 +770,8 @@
                     display: "計画数",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "100px"
+                        "max-width": "100px",
+                        "min-width": "100px"
                     },
                     ctrlAttr: getCtrlAttr({
                         required: "required",
@@ -787,7 +788,8 @@
                     display: "阶段生产",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "100px"
+                        "max-width": "100px",
+                        "min-width": "100px"
                     },
                     ctrlAttr: getCtrlAttr({
                         required: "required",
@@ -804,7 +806,8 @@
                     display: "总生产",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "100px"
+                        "max-width": "100px",
+                        "min-width": "100px"
                     },
                     ctrlAttr: getCtrlAttr({
                         required: "required",
@@ -821,7 +824,8 @@
                     display: "実績统计数",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "80px"
+                        "max-width": "80px",
+                        "min-width": "80px"
                     },
                     ctrlAttr: getCtrlAttr({
                         required: "required",
@@ -838,7 +842,8 @@
                     display: "不良数",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "80px"
+                        "max-width": "80px",
+                        "min-width": "80px"
                     },
                     ctrlAttr: getCtrlAttr({}),
                     events: {
@@ -852,7 +857,8 @@
                     display: "试验品",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "80px"
+                        "max-width": "80px",
+                        "min-width": "80px"
                     },
                     ctrlAttr: getCtrlAttr({}),
                     events: {
@@ -866,7 +872,8 @@
                     display: "再利用",
                     type: "number",
                     ctrlCss: {
-                        "max-width": "80px"
+                        "max-width": "80px",
+                        "min-width": "80px"
                     },
                     ctrlAttr: getCtrlAttr({}),
                     events: {
@@ -954,7 +961,8 @@
                     name: "repairOrder",
                     display: "维修单号",
                     ctrlCss: {
-                        "max-width": "130px"
+                        "max-width": "130px",
+                        "min-width": "130px"
                     },
                     ctrlAttr: {
                         disabled: "disabled"
@@ -966,7 +974,8 @@
                     type: "select",
                     ctrlOptions: getDictStr([[${@dict.getType('biz_repair_reason')}]]),
                     ctrlCss: {
-                        "max-width": "130px"
+                        "max-width": "130px",
+                        "min-width": "130px"
                     },
                     ctrlAttr: {
                         disabled: "disabled"
