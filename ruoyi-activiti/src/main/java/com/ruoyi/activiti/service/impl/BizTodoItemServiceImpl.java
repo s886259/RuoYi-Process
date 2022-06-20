@@ -132,24 +132,24 @@ public class BizTodoItemServiceImpl implements IBizTodoItemService {
                 counter++;
             } else {
                 // 查询候选用户组
-                List<String> todoUserIdList = bizTodoItemMapper.selectTodoUserListByTaskId(task.getId());
-                if (!CollectionUtils.isEmpty(todoUserIdList)) {
-                    for (String todoUserId: todoUserIdList) {
-                        SysUser todoUser = userMapper.selectUserByLoginName(todoUserId);
-                        newItem.setTodoUserId(todoUser.getLoginName());
-                        newItem.setTodoUserName(todoUser.getUserName());
-                        bizTodoItemMapper.insertBizTodoItem(newItem);
-                        counter++;
-                    }
-                } else {
-                    // 查询候选用户
-                    String todoUserId = bizTodoItemMapper.selectTodoUserByTaskId(task.getId());
-                    SysUser todoUser = userMapper.selectUserByLoginName(todoUserId);
-                    newItem.setTodoUserId(todoUser.getLoginName());
-                    newItem.setTodoUserName(todoUser.getUserName());
-                    bizTodoItemMapper.insertBizTodoItem(newItem);
-                    counter++;
-                }
+//                List<String> todoUserIdList = bizTodoItemMapper.selectTodoUserListByTaskId(task.getId());
+//                if (!CollectionUtils.isEmpty(todoUserIdList)) {
+//                    for (String todoUserId: todoUserIdList) {
+//                        SysUser todoUser = userMapper.selectUserByLoginName(todoUserId);
+//                        newItem.setTodoUserId(todoUser.getLoginName());
+//                        newItem.setTodoUserName(todoUser.getUserName());
+//                        bizTodoItemMapper.insertBizTodoItem(newItem);
+//                        counter++;
+//                    }
+//                } else {
+//                    // 查询候选用户
+//                    String todoUserId = bizTodoItemMapper.selectTodoUserByTaskId(task.getId());
+//                    SysUser todoUser = userMapper.selectUserByLoginName(todoUserId);
+//                    newItem.setTodoUserId(todoUser.getLoginName());
+//                    newItem.setTodoUserName(todoUser.getUserName());
+//                    bizTodoItemMapper.insertBizTodoItem(newItem);
+//                    counter++;
+//                }
             }
         }
         return counter;

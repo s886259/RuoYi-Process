@@ -64,12 +64,12 @@ public interface BizTodoItemMapper {
     @Select("SELECT * FROM biz_todo_item WHERE task_id = #{taskId}")
     BizTodoItem selectTodoItemByTaskId(@Param(value = "taskId") String taskId);
 
-    @Select("SELECT USER_ID_ FROM ACT_ID_MEMBERSHIP WHERE GROUP_ID_ = (SELECT GROUP_ID_ FROM ACT_RU_IDENTITYLINK WHERE TASK_ID_ = #{taskId})")
-    List<String> selectTodoUserListByTaskId(@Param(value = "taskId") String taskId);
+//    @Select("SELECT USER_ID_ FROM ACT_ID_MEMBERSHIP WHERE GROUP_ID_ = (SELECT GROUP_ID_ FROM ACT_RU_IDENTITYLINK WHERE TASK_ID_ = #{taskId})")
+//    List<String> selectTodoUserListByTaskId(@Param(value = "taskId") String taskId);
 
     @Select("SELECT * FROM biz_todo_item WHERE task_id = #{taskId} AND todo_user_id = #{todoUserId}")
     BizTodoItem selectTodoItemByCondition(@Param(value = "taskId") String taskId, @Param(value = "todoUserId") String todoUserId);
 
-    @Select("SELECT USER_ID_ FROM ACT_ID_MEMBERSHIP WHERE USER_ID_ = (SELECT USER_ID_ FROM ACT_RU_IDENTITYLINK WHERE TASK_ID_ = #{taskId})")
-    String selectTodoUserByTaskId(String id);
+//    @Select("SELECT USER_ID_ FROM ACT_ID_MEMBERSHIP WHERE USER_ID_ = (SELECT USER_ID_ FROM ACT_RU_IDENTITYLINK WHERE TASK_ID_ = #{taskId})")
+//    String selectTodoUserByTaskId(String id);
 }
