@@ -6,43 +6,45 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-leave-add" style="overflow: scroll;">
+    <form class="form-horizontal m" id="form-leave-add">
         <h1>基本信息</h1>
-        <div class="container-div">
-            <div class="form-group">
-                <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>生产线：</label>
-                    <div class="col-sm-8">
-                        <select name="prodLine" class="form-control m-b"
-                                th:with="type=${@dict.getType('biz_prod_line')}" required>
-                            <option value="">请选择生产线</option>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}"></option>
-                        </select>
-                    </div>
+        <div class="form-group">
+            <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>生产线：</label>
+                <div class="col-sm-8">
+                    <select name="prodLine" class="form-control m-b"
+                            th:with="type=${@dict.getType('biz_prod_line')}" required>
+                        <option value="">请选择生产线</option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                th:value="${dict.dictValue}"></option>
+                    </select>
                 </div>
-                <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>班次：</label>
-                    <div class="col-sm-8">
-                        <select name="className" class="form-control m-b"
-                                th:with="type=${@dict.getType('biz_class_name')}" required>
-                            <option value="">请选择班次</option>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}"></option>
-                        </select>
-                    </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>班次：</label>
+                <div class="col-sm-8">
+                    <select name="className" class="form-control m-b"
+                            th:with="type=${@dict.getType('biz_class_name')}" required>
+                        <option value="">请选择班次</option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                th:value="${dict.dictValue}"></option>
+                    </select>
                 </div>
-                <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>班制：</label>
-                    <div class="col-sm-8">
-                        <select name="classType" class="form-control m-b"
-                                th:with="type=${@dict.getType('biz_class_type')}" required>
-                            <option value="">请选择班制</option>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}"></option>
-                        </select>
-                    </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="col-sm-4 control-label"><span style="color: red; ">*</span>班制：</label>
+                <div class="col-sm-8">
+                    <select name="classType" class="form-control m-b"
+                            th:with="type=${@dict.getType('biz_class_type')}" required>
+                        <option value="">请选择班制</option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                th:value="${dict.dictValue}"></option>
+                    </select>
                 </div>
+            </div>
+        </div>
+        <div class="form-group" style="overflow: scroll;">
+            <div class="container-div">
                 <!--tblAppendGrid-->
                 <div class="container-fluid">
                     <table id="tblAppendGrid"></table>
@@ -51,7 +53,7 @@
         </div>
 
         <h1>数据统计</h1>
-        <div class="container-div">
+        <div>
             <div class="form-group">
                 <!--时间-->
                 <div class="form-group col-sm-3">
@@ -258,20 +260,6 @@
                     </div>
                 </div>
             </div>
-            <!--特计-->
-            <!-- <div class="form-group">
-                <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>特计：</label>
-                    <div class="col-sm-8">
-                        <select name="prodLine" class="form-control m-b"
-                                th:with="type=${@dict.getType('biz_prod_line')}" required>
-                            <option value="">请选择生产线</option>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}"></option>
-                        </select>
-                    </div>
-                </div>
-            </div> -->
         </div>
 
         <h1>不良内容</h1>
@@ -287,7 +275,7 @@
         <div class="container-div">
             <div class="form-group">
                 <div class="col-sm-12">
-                    <textarea name="reason" class="form-control" rows="5" placeholder="请填写特计内容" required></textarea>
+                    <input name="reason" class="form-control" readonly required></input>
                 </div>
             </div>
         </div>
@@ -341,16 +329,7 @@
         "sumDirectOperator": 0,      //直接作业人员
         "sumIndirectOperator": 0,    //直间作业人员
         "sumPlanRate": 0,            //速成率=实际统计数/计划数 *100%
-        "sumWorkTimeTypes": {
-            "2": 0,                  //稼动
-            "16": 0,                 //部品等待
-            "11": 0,                 //切换车种
-            "10": 0,                 //品质停止
-            "5": 0,                  //设备停止
-            "12": 0,                 //试做
-            "9": 0,                  //无计划
-            "19": 0                  //其他
-        },
+        "sumWorkTimeTypes": {},
         "sumGoodProdRate": 0,        //良品比例
         "sumHourRate": 0,            //工时达成率
         "badReason": "",             //不良内容
@@ -386,6 +365,32 @@
         return result;
     }
 
+    function renderTime(parent, controlId, uniqueIndex) {
+        var divDom = document.createElement("div");
+        divDom.classList.add("input-group");
+        divDom.classList.add("bootstrap-timepicker");
+        divDom.classList.add("timepicker");
+        //input
+        var inputDom = document.createElement("input");
+        inputDom.classList.add("form-control");
+        inputDom.setAttribute("data-provide", "timepicker");
+        inputDom.setAttribute("data-template", "modal");
+        inputDom.setAttribute("data-minute-step", "1");
+        inputDom.setAttribute("data-modal-backdrop", "true");
+        inputDom.setAttribute("data-show-meridian", "false");
+        inputDom.setAttribute("type", "text");
+        inputDom.setAttribute("required", "required");
+        inputDom.setAttribute("aria-required", true);
+        inputDom.style["width"] = "100px";
+        inputDom.id = controlId;
+        inputDom.name = controlId;
+        inputDom.addEventListener("change", function (e) {
+            calculateTime(uniqueIndex)
+        });
+        divDom.appendChild(inputDom);
+        parent.appendChild(divDom);
+    }
+
     function renderOptions(parent, controlId) {
         var selectDom = document.createElement("select");
         selectDom.classList.add("form-control");
@@ -393,7 +398,7 @@
         selectDom.setAttribute("multiple", true);
         selectDom.setAttribute("required", "required");
         selectDom.setAttribute("aria-required", true);
-        selectDom.style["width"] = "100px";
+        selectDom.style["width"] = "400px";
         selectDom.id = controlId;
         selectDom.name = controlId;
         //init options
@@ -403,6 +408,8 @@
             var optionDom = document.createElement("option");
             optionDom.value = dict.dictValue;
             optionDom.innerText = dict.dictLabel
+            //默认全选中
+            optionDom.selected = "selected"
             selectDom.appendChild(optionDom);
         }
         parent.appendChild(selectDom);
@@ -410,28 +417,30 @@
 
     // 监听开始和结束日期填写，动态生成时间和工时
     function calculateTime(uniqueIndex) {
-        var rowIndex = myAppendGrid.getRowIndex(uniqueIndex);
-        var str1 = myAppendGrid.getCtrlValue("startTime", rowIndex) || 0;
-        var str2 = myAppendGrid.getCtrlValue("endTime", rowIndex) || 0;
-        if (str1 == 0 || str2 == 0) {
-            return;
-        }
-        var number1 = str1.split(":");
-        var number2 = str2.split(":");
-        var startTime = parseInt(number1[0]) * 60 + parseInt(number1[1])
-        var endTime = parseInt(number2[0]) * 60 + parseInt(number2[1])
-        if (startTime >= endTime) {
-            $.modal.alertWarning("结束时间必须大于开始时间");
-            return false;
-        }
-        //时间(单位分钟)
-        var minute = endTime - startTime;
-        myAppendGrid.setCtrlValue("minute", rowIndex, minute);
-        //工时(单位小时)
-        var hour = Math.floor(minute * 100 / 60) / 100;
-        myAppendGrid.setCtrlValue("hour", rowIndex, hour);
-        //数据统计
-        dataSummary();
+        setTimeout(function () {
+            var rowIndex = myAppendGrid.getRowIndex(uniqueIndex);
+            var str1 = myAppendGrid.getCtrlValue("startTime", rowIndex) || 0;
+            var str2 = myAppendGrid.getCtrlValue("endTime", rowIndex) || 0;
+            if (str1 == 0 || str2 == 0) {
+                return;
+            }
+            var number1 = str1.split(":");
+            var number2 = str2.split(":");
+            var startTime = parseInt(number1[0]) * 60 + parseInt(number1[1])
+            var endTime = parseInt(number2[0]) * 60 + parseInt(number2[1])
+            if (startTime >= endTime) {
+                $.modal.alertWarning("结束时间必须大于开始时间");
+                return false;
+            }
+            //时间(单位分钟)
+            var minute = endTime - startTime;
+            myAppendGrid.setCtrlValue("minute", rowIndex, minute);
+            //工时(单位小时)
+            var hour = Math.floor(minute * 100 / 60) / 100;
+            myAppendGrid.setCtrlValue("hour", rowIndex, hour);
+            //数据统计
+            dataSummary();
+        }, 100)
     }
 
     function dataSummary() {
@@ -449,76 +458,94 @@
             "sumDirectOperator": 0,      //直接作业人员
             "sumIndirectOperator": 0,    //直间作业人员
             "sumPlanRate": 0,            //速成率=实际统计数/计划数 *100%
-            "sumWorkTimeTypes": {
-                "2": 0,                  //稼动
-                "16": 0,                 //部品等待
-                "11": 0,                 //切换车种
-                "10": 0,                 //品质停止
-                "5": 0,                  //设备停止
-                "12": 0,                 //试做
-                "9": 0,                  //无计划
-                "19": 0                  //其他
-            },
+            "sumWorkTimeTypes": {},
             "sumGoodProdRate": 0,        //良品比例
             "sumHourRate": 0,            //工时达成率
             "badReason": "",             //不良内容
             "reason": "",                //特计
         }
+        for (var i = 1; i <= 23; i++) {
+            sumTemp.sumWorkTimeTypes[i] = 0;
+        }
         // Get row count
         var rowCount = myAppendGrid.getRowCount();
         for (var i = 0; i < rowCount; i++) {
+            //时间
             var minute = getAppendGridData("minute", i);
             sumTemp.sumMinute += minute;
+            var workTimeType = getAppendGridData("workTimeType", i)
+            if (i == 0 && workTimeType && workTimeType != 1) {
+                $.modal.alertWarning("第一行必须为始件");
+                return false;
+            }
+            if (!sumTemp.sumWorkTimeTypes[workTimeType]) {
+                sumTemp.sumWorkTimeTypes[workTimeType] = minute;
+            } else {
+                sumTemp.sumWorkTimeTypes[workTimeType] += minute;
+            }
+            //直接人员数量
+            var directOperator = getAppendGridArray("directOperator", i).length;
+            sumTemp.sumDirectOperator = Math.max(directOperator, sumTemp.sumDirectOperator);
+            //工时
+            if (workTimeType == 5 || workTimeType == 6 || workTimeType == 7) {
+                //时间类型为休息7、就餐6、设备停止5时，工时=0
+                myAppendGrid.setCtrlValue("hour", i, 0);
+            } else {
+                //工时单位为小时，计算公式 时间/60*直接人员数量
+                var hour = Math.floor(minute * 100 * directOperator / 60) / 100;
+                myAppendGrid.setCtrlValue("hour", i, hour);
+            }
             sumTemp.sumHour += getAppendGridData("hour", i);
             //計画数
             var planNum = getAppendGridData("planNum", i);
             sumTemp.sumPlanNum += planNum;
+            //実績统计数
+            var realNum = getAppendGridData("realNum", i);
+            sumTemp.sumRealNum += realNum;
+            //不良数
+            var badNum = getAppendGridData("badNum", i);
+            sumTemp.sumBadNum += badNum;
+            //试验品
+            var testNum = getAppendGridData("testNum", i);
+            sumTemp.sumTestNum += testNum;
+            if (workTimeType == 1) {
+                //1.计算规则，第一行必须为始件，且只有第一个时间类型为始件时，总生产=阶段生产=实际统计数
+                myAppendGrid.setCtrlValue("totalProdNum", i, realNum);
+                myAppendGrid.setCtrlValue("prodNum", i, realNum);
+            } else {
+                /**
+                 * 2.自第二行起
+                 *  总生产数 = 实际统计数 + 不良数 + 实验品
+                 *  阶段生产 = 总生产 -（减去）上一行的实际统计数
+                 */
+                var totalProdNum = realNum + badNum + testNum;
+                myAppendGrid.setCtrlValue("totalProdNum", i, totalProdNum);
+                myAppendGrid.setCtrlValue("prodNum", i, totalProdNum - getAppendGridData("realNum", i - 1));
+            }
             //阶段生产
             sumTemp.sumProdNum += getAppendGridData("prodNum", i);
             //总生产
             sumTemp.sumTotalProdNum += getAppendGridData("totalProdNum", i);
-            //実績统计数
-            sumTemp.sumRealNum += getAppendGridData("realNum", i);
-            //不良数
-            sumTemp.sumBadNum += getAppendGridData("badNum", i);
-            sumTemp.sumTestNum += getAppendGridData("testNum", i);
             sumTemp.sumReuse += getAppendGridData("reuse", i);
-            sumTemp.sumDirectOperator += getAppendGridArray("directOperator", i).length
-            sumTemp.sumIndirectOperator += getAppendGridArray("indirectOperator", i).length
-            if (getAppendGridData("workTimeType", i) == 2) {
-                //稼动
-                sumTemp.sumWorkTimeTypes["2"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 16) {
-                //部品等待
-                sumTemp.sumWorkTimeTypes["16"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 11) {
-                //切换车种
-                sumTemp.sumWorkTimeTypes["11"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 10) {
-                //品质停止
-                sumTemp.sumWorkTimeTypes["10"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 5) {
-                //品质停止
-                sumTemp.sumWorkTimeTypes["5"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 12) {
-                //试做
-                sumTemp.sumWorkTimeTypes["12"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 9) {
-                //无计划
-                sumTemp.sumWorkTimeTypes["9"] += minute;
-            } else if (getAppendGridData("workTimeType", i) == 19) {
-                //其他
-                sumTemp.sumWorkTimeTypes["19"] += minute;
-            }
+            //间接人员数量
+            var indirectOperator = getAppendGridArray("indirectOperator", i).length;
+            sumTemp.sumIndirectOperator = Math.max(indirectOperator, sumTemp.sumDirectOperator);
         }
-        $("input[name='sumMinute']").val(sumTemp.sumMinute);
+        //总作业时间=这一列时间的累加-休息7-就餐时间6-其他产线生产3，单位为分钟
+        var sumMinute = sumTemp.sumMinute - sumTemp.sumWorkTimeTypes["7"] - sumTemp.sumWorkTimeTypes["6"] - sumTemp.sumWorkTimeTypes["3"]
+        $("input[name='sumMinute']").val(sumMinute);
         $("input[name='sumHour']").val(sumTemp.sumHour.toFixed(2));
         $("input[name='sumPlanNum']").val(sumTemp.sumPlanNum);
         $("input[name='sumProdNum']").val(sumTemp.sumProdNum);
+        //总生产
         $("input[name='sumTotalProdNum']").val(sumTemp.sumTotalProdNum);
-        $("input[name='sumRealNum']").val(sumTemp.sumRealNum);
+        //不良数
         $("input[name='sumBadNum']").val(sumTemp.sumBadNum);
+        //试验品
         $("input[name='sumTestNum']").val(sumTemp.sumTestNum);
+        //实际统计数总数=总生产总数-不良数-实验品数
+        var sumRealNum = sumTemp.sumTotalProdNum - sumTemp.sumBadNum - sumTemp.sumTestNum
+        $("input[name='sumRealNum']").val(sumRealNum);
         $("input[name='sumReuse']").val(sumTemp.sumReuse);
         $("input[name='sumDirectOperator']").val(sumTemp.sumDirectOperator);
         $("input[name='sumIndirectOperator']").val(sumTemp.sumIndirectOperator);
@@ -527,21 +554,29 @@
         sumTemp.sumPlanRate = sumTemp.sumPlanRate.toFixed(2)
         $("input[name='sumPlanRate']").val(sumTemp.sumPlanRate);
         //稼动
-        $("input[name='sumWorkTimeType2']").val(sumTemp.sumWorkTimeTypes["2"]);
+        var sumWorkTimeType2 = sumTemp.sumWorkTimeTypes["2"];
+        $("input[name='sumWorkTimeType2']").val(sumWorkTimeType2);
         //部品等待
-        $("input[name='sumWorkTimeType16']").val(sumTemp.sumWorkTimeTypes["16"]);
-        //切换车种
-        $("input[name='sumWorkTimeType11']").val(sumTemp.sumWorkTimeTypes["11"]);
+        var sumWorkTimeType16 = sumTemp.sumWorkTimeTypes["16"]
+        $("input[name='sumWorkTimeType16']").val(sumWorkTimeType16);
         //品质停止
-        $("input[name='sumWorkTimeType10']").val(sumTemp.sumWorkTimeTypes["10"]);
+        var sumWorkTimeType10 = sumTemp.sumWorkTimeTypes["10"]
+        $("input[name='sumWorkTimeType10']").val(sumWorkTimeType10);
         //设备停止
-        $("input[name='sumWorkTimeType5']").val(sumTemp.sumWorkTimeTypes["5"]);
+        var sumWorkTimeType5 = sumTemp.sumWorkTimeTypes["5"];
+        $("input[name='sumWorkTimeType5']").val(sumWorkTimeType5);
         //试做
-        $("input[name='sumWorkTimeType12']").val(sumTemp.sumWorkTimeTypes["12"]);
-        //无计划
-        $("input[name='sumWorkTimeType9']").val(sumTemp.sumWorkTimeTypes["9"]);
-        //其他
-        $("input[name='sumWorkTimeType19']").val(sumTemp.sumWorkTimeTypes["19"]);
+        var sumWorkTimeType12 = sumTemp.sumWorkTimeTypes["12"]
+        $("input[name='sumWorkTimeType12']").val(sumWorkTimeType12);
+        //无计划=无计划+（开会、5S=8）
+        var sumWorkTimeType9 = sumTemp.sumWorkTimeTypes["9"] + sumTemp.sumWorkTimeTypes["8"]
+        $("input[name='sumWorkTimeType9']").val(sumWorkTimeType9);
+        //切换时间=所有时间类型为始件+终件+切换的时间累加
+        var sumWorkTimeType11 = sumTemp.sumWorkTimeTypes["1"] + sumTemp.sumWorkTimeTypes["4"] + sumTemp.sumWorkTimeTypes["11"]
+        $("input[name='sumWorkTimeType11']").val(sumWorkTimeType11);
+        //其他=总作业时间-稼动-切换时间-设备停止-无计划-部品等待-品质停止-试做
+        var sumWorkTimeType19 = sumMinute - sumWorkTimeType2 - sumWorkTimeType11 - sumWorkTimeType5 - sumWorkTimeType9 - sumWorkTimeType16 - sumWorkTimeType10 - sumWorkTimeType12;
+        $("input[name='sumWorkTimeType19']").val(sumWorkTimeType19);
         //良品比例=(実績统计数-不良数)/実績统计数 *100%
         if (sumTemp.sumRealNum > 0) {
             sumTemp.sumGoodProdRate += (sumTemp.sumRealNum - sumTemp.sumBadNum) * 100 / sumTemp.sumRealNum;
@@ -552,6 +587,9 @@
         sumTemp.sumHourRate += sumTemp.sumHour * 100 / 8;
         sumTemp.sumHourRate = sumTemp.sumHourRate.toFixed(2)
         $("input[name='sumHourRate']").val(sumTemp.sumHourRate);
+        //特记=实际统计总数/总稼动时间（该时间单位为分钟）/60（将分钟换算成小时）/直接人员人数
+        var reason = Math.floor(parseFloat(sumRealNum) / sumWorkTimeType2 / 60 / sumTemp.sumDirectOperator * 100) / 100
+        $("input[name='reason']").val(reason);
         formData = sumTemp;
     }
 
@@ -642,31 +680,37 @@
                 {
                     name: "startTime",
                     display: "检查开始时间",
-                    type: "time",
-                    ctrlAttr: {required: "required"},
-                    ctrlCss: {
-                        "max-width": "200px"
+                    type: "custom",
+                    customBuilder: function (parent, idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        renderTime(parent, controlId, uniqueIndex);
                     },
-                    // cellClass: "calcTotalSecondInput",
-                    events: {
-                        change: function (e) {
-                            calculateTime(e.uniqueIndex);
-                        }
+                    customGetter: function (idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        var res = $("#" + controlId).val();
+                        return res;
+                    },
+                    customSetter: function (idPrefix, name, uniqueIndex, value) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        document.getElementById(controlId).value = value;
                     }
                 },
                 {
                     name: "endTime",
                     display: "检查结束时间",
-                    type: "time",
-                    ctrlAttr: {required: "required"},
-                    ctrlCss: {
-                        "max-width": "200px"
+                    type: "custom",
+                    customBuilder: function (parent, idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        renderTime(parent, controlId, uniqueIndex);
                     },
-                    // cellClass: "calcTotalSecondInput",
-                    events: {
-                        change: function (e) {
-                            calculateTime(e.uniqueIndex);
-                        }
+                    customGetter: function (idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        var res = $("#" + controlId).val();
+                        return res;
+                    },
+                    customSetter: function (idPrefix, name, uniqueIndex, value) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        document.getElementById(controlId).value = value;
                     }
                 },
                 {
@@ -765,11 +809,12 @@
                         required: "required",
                         min: 0
                     },
-                    events: {
-                        change: function (e) {
-                            dataSummary();
-                        }
-                    }
+                    type: "readonly"
+                    // events: {
+                    //     change: function (e) {
+                    //         dataSummary();
+                    //     }
+                    // }
                 },
                 {
                     name: "totalProdNum",
@@ -783,11 +828,12 @@
                         required: "required",
                         min: 0
                     },
-                    events: {
-                        change: function (e) {
-                            dataSummary();
-                        }
-                    }
+                    type: "readonly"
+                    // events: {
+                    //     change: function (e) {
+                    //         dataSummary();
+                    //     }
+                    // }
                 },
                 {
                     name: "realNum",
@@ -961,6 +1007,9 @@
             // Hide the two remove buttons
             hideButtons: {
                 // remove: true,
+                insert: true,
+                moveUp: true,
+                moveDown: true,
                 removeLast: true
             },
             afterRowInserted: function (caller, rowIndex) {
@@ -1002,5 +1051,28 @@
     }
 
 </script>
+<style>
+    .container-div {
+        max-height: calc(120vh - 210px);
+        overflow-y: auto;
+    }
+
+    table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: white;
+    }
+
+    table tbody th {
+        position: relative;
+    }
+
+    table thead th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+    }
+</style>
 </body>
 </html>
