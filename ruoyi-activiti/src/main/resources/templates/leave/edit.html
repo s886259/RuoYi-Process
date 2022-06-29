@@ -383,11 +383,11 @@
         parent.appendChild(divDom);
     }
 
-    function renderOptions(parent, controlId, data) {
+    function renderOptions(parent, controlId, arr) {
         var selectDom = document.createElement("select");
         selectDom.classList.add("form-control");
         selectDom.classList.add("select2-multiple");
-        selectDom.setAttribute("multiple", true);
+        selectDom.setAttribute("multiple", "multiple");
         selectDom.setAttribute("required", "required");
         selectDom.setAttribute("aria-required", true);
         selectDom.style["width"] = "400px";
@@ -400,13 +400,12 @@
             var optionDom = document.createElement("option");
             optionDom.value = dict.dictValue;
             optionDom.innerText = dict.dictLabel
-            //选中
-            // for (var i = 0; i < data.length; i++) {
-            //     if(data[i] == dict.dictValue){
+            // data选中
+            for (var j = 0; j < arr.length; j++) {
+                if(arr[j] == dict.dictValue){
                     optionDom.selected = "selected"
-                    // break;
-            //     }
-            // }
+                }
+            }
             selectDom.appendChild(optionDom);
         }
         parent.appendChild(selectDom);
@@ -758,7 +757,7 @@
                 {
                     name: "contentType",
                     display: "品番紙内容",
-                    ctrlAttr: getCtrlAttr({required: "required"}),
+                    ctrlAttr: getCtrlAttr({required: "required", disabled: true}),
                     type: "select",
                     ctrlOptions: getDictStr(biz_content_types),
                     ctrlCss: {
@@ -905,9 +904,29 @@
                     ctrlAttr: getCtrlAttr({}),
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
-                        var gridDatas = [[${bizLeave}]].gridDatas;
-                        var data = gridDatas[uniqueIndex - 1].directOperator
-                        renderOptions(parent, controlId, data);
+                        var arr = [[${bizLeave}]].gridDatas[uniqueIndex - 1].directOperator
+                        renderOptions(parent, controlId, arr);
+                        $("#" + controlId).select2({
+                            placeholder: "请选择",
+                            tags: true,
+                            // theme: "classic",
+                            width: 'resolve', // need to override the changed default
+                            createTag: function (params) {
+                                var term = $.trim(params.term);
+
+                                if (term === '') {
+                                    return null;
+                                }
+
+                                return {
+                                    id: term,
+                                    text: term,
+                                    newTag: true // add additional parameters
+                                }
+                            }
+                        }).on('change', function (e) {
+                            dataSummary()
+                        });
                     },
                     customGetter: function (idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
@@ -927,11 +946,32 @@
                     name: "indirectOperator",
                     display: "直间作业人员",
                     type: "custom",
+                    ctrlAttr: getCtrlAttr({}),
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
-                        var gridDatas = [[${bizLeave}]].gridDatas;
-                        var data = gridDatas[uniqueIndex - 1].indirectOperator
-                        renderOptions(parent, controlId, data);
+                        var arr = [[${bizLeave}]].gridDatas[uniqueIndex - 1].indirectOperator
+                        renderOptions(parent, controlId, arr);
+                        $("#" + controlId).select2({
+                            placeholder: "请选择",
+                            tags: true,
+                            // theme: "classic",
+                            width: 'resolve', // need to override the changed default
+                            createTag: function (params) {
+                                var term = $.trim(params.term);
+
+                                if (term === '') {
+                                    return null;
+                                }
+
+                                return {
+                                    id: term,
+                                    text: term,
+                                    newTag: true // add additional parameters
+                                }
+                            }
+                        }).on('change', function (e) {
+                            dataSummary()
+                        });
                     },
                     customGetter: function (idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
@@ -1021,15 +1061,15 @@
                 removeLast: true
             },
             afterRowInserted: function (caller, rowIndex) {
-                renderSelect2();
+                // renderSelect2();
             },
             afterRowAppended: function (caller, rowIndex) {
-                renderSelect2();
+                // renderSelect2();
             },
         });
 
         //trigger render
-        renderSelect2();
+        // renderSelect2();
         //触发数据统计
         dataSummary();
     })

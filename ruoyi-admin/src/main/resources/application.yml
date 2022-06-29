@@ -68,7 +68,7 @@ spring:
   devtools:
     restart:
       # 热部署开关
-      enabled: true
+      enabled: false
   # activiti 模块
   # 解决启动报错：class path resource [processes/] cannot be resolved to URL because it does not exist
   activiti:

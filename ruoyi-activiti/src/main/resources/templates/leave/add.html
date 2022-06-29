@@ -220,29 +220,6 @@
             </div>
             <!--计划达成-->
             <div class="form-group">
-                <!-- <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>计划达成：</label>
-                    <div class="col-sm-8">
-                        <select name="prodLine" class="form-control m-b"
-                                th:with="type=${@dict.getType('biz_prod_line')}" required>
-                            <option value="">请选择生产线</option>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}"></option>
-                        </select>
-                    </div>
-                </div> -->
-                <!--实际达成-->
-                <!-- <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>实际达成：</label>
-                    <div class="col-sm-8">
-                        <select name="className" class="form-control m-b"
-                                th:with="type=${@dict.getType('biz_class_name')}" required>
-                            <option value="">请选择班次</option>
-                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                    th:value="${dict.dictValue}"></option>
-                        </select>
-                    </div>
-                </div> -->
                 <!--良品比例-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>良品比例(%)：</label>
@@ -395,7 +372,7 @@
         var selectDom = document.createElement("select");
         selectDom.classList.add("form-control");
         selectDom.classList.add("select2-multiple");
-        selectDom.setAttribute("multiple", true);
+        selectDom.setAttribute("multiple", "multiple");
         selectDom.setAttribute("required", "required");
         selectDom.setAttribute("aria-required", true);
         selectDom.style["width"] = "400px";
@@ -408,7 +385,7 @@
             var optionDom = document.createElement("option");
             optionDom.value = dict.dictValue;
             optionDom.innerText = dict.dictLabel
-            //默认全选中
+            // 默认全选中
             optionDom.selected = "selected"
             selectDom.appendChild(optionDom);
         }
