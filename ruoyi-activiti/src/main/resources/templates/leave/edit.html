@@ -475,7 +475,7 @@
             sumTemp.sumDirectOperator = Math.max(directOperator, sumTemp.sumDirectOperator);
             //工时
             if (workTimeType == 5 || workTimeType == 6 || workTimeType == 7) {
-                //时间类型为休息7、就餐6、设备停止5时，工时=0
+                //时间类型为休息7、就餐6 工时=0
                 myAppendGrid.setCtrlValue("hour", i, 0);
             } else {
                 //工时单位为小时，计算公式 时间/60*直接人员数量
