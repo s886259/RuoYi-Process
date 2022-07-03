@@ -48,13 +48,14 @@ public class CaptchaValidateFilter extends AccessControlFilter
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
             throws Exception
     {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        // 验证码禁用 或不是表单提交 允许访问
-        if (captchaEnabled == false || !"post".equals(httpServletRequest.getMethod().toLowerCase()))
-        {
-            return true;
-        }
-        return validateResponse(httpServletRequest, httpServletRequest.getParameter(ShiroConstants.CURRENT_VALIDATECODE));
+//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+//        // 验证码禁用 或不是表单提交 允许访问
+//        if (captchaEnabled == false || !"post".equals(httpServletRequest.getMethod().toLowerCase()))
+//        {
+//            return true;
+//        }
+//        return validateResponse(httpServletRequest, httpServletRequest.getParameter(ShiroConstants.CURRENT_VALIDATECODE));
+        return true;
     }
 
     public boolean validateResponse(HttpServletRequest request, String validateCode)
