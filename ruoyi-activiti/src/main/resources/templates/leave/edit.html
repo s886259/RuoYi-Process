@@ -325,23 +325,13 @@
                 var rowValues = myAppendGrid.getRowValue(i);
                 formData.gridDatas.push(rowValues)
             }
-            // $.operate.save(prefix + "/edit", $('#form-leave-edit').serialize());
             formData.prodLine = $("select[name='prodLine']").val();
             formData.className = $("select[name='className']").val();
             formData.classType = $("select[name='classType']").val();
             formData.badReason = $("textarea[name='badReason']").val();
             formData.reason = $("textarea[name='reason']").val();
             formData.id = $("input[name='id']").val();
-            var bizLeave = [[${bizLeave}]];
-            // if (bizLeave.instanceId) {
-            //     formData.instanceId = bizLeave.instanceId
-            //     $.operate.saveJson(prefix + "/complete/" + bizLeave.taskId+"?p_B_flag=true", JSON.stringify(formData));
-            // } else {
-            //     var url = prefix + "/edit";
-            //     $.operate.saveJson(url, JSON.stringify(formData));
-            // }
-            var url = prefix + "/edit";
-            $.operate.saveJson(url, JSON.stringify(formData));
+            $.operate.saveJson( prefix + "/edit", JSON.stringify(formData));
         }
     }
 
@@ -388,8 +378,8 @@
         selectDom.classList.add("form-control");
         selectDom.classList.add("select2-multiple");
         selectDom.setAttribute("multiple", "multiple");
-        selectDom.setAttribute("required", "required");
-        selectDom.setAttribute("aria-required", true);
+        // selectDom.setAttribute("required", "required");
+        // selectDom.setAttribute("aria-required", true);
         selectDom.style["width"] = "400px";
         selectDom.id = controlId;
         selectDom.name = controlId;
@@ -399,11 +389,11 @@
             var dict = dicts[i]
             var optionDom = document.createElement("option");
             optionDom.value = dict.dictValue;
-            optionDom.innerText = dict.dictLabel
+            optionDom.innerText = dict.dictLabel;
             // data选中
             for (var j = 0; j < arr.length; j++) {
                 if(arr[j] == dict.dictValue){
-                    optionDom.selected = "selected"
+                    optionDom.selected = "selected";
                 }
             }
             selectDom.appendChild(optionDom);
@@ -904,7 +894,8 @@
                     ctrlAttr: getCtrlAttr({}),
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
-                        var arr = [[${bizLeave}]].gridDatas[uniqueIndex - 1].directOperator
+                        var data = [[${bizLeave}]].gridDatas[uniqueIndex - 1] || {};
+                        var arr = data.directOperator || [];
                         renderOptions(parent, controlId, arr);
                         $("#" + controlId).select2({
                             placeholder: "请选择",
@@ -913,11 +904,9 @@
                             width: 'resolve', // need to override the changed default
                             createTag: function (params) {
                                 var term = $.trim(params.term);
-
                                 if (term === '') {
                                     return null;
                                 }
-
                                 return {
                                     id: term,
                                     text: term,
@@ -926,6 +915,7 @@
                             }
                         }).on('change', function (e) {
                             dataSummary()
+                            $("#" + controlId).valid();
                         });
                     },
                     customGetter: function (idPrefix, name, uniqueIndex) {
@@ -949,7 +939,8 @@
                     ctrlAttr: getCtrlAttr({}),
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
-                        var arr = [[${bizLeave}]].gridDatas[uniqueIndex - 1].indirectOperator
+                        var data = [[${bizLeave}]].gridDatas[uniqueIndex - 1] || {};
+                        var arr = data.indirectOperator || [];
                         renderOptions(parent, controlId, arr);
                         $("#" + controlId).select2({
                             placeholder: "请选择",
@@ -958,11 +949,9 @@
                             width: 'resolve', // need to override the changed default
                             createTag: function (params) {
                                 var term = $.trim(params.term);
-
                                 if (term === '') {
                                     return null;
                                 }
-
                                 return {
                                     id: term,
                                     text: term,
@@ -970,7 +959,7 @@
                                 }
                             }
                         }).on('change', function (e) {
-                            dataSummary()
+                            dataSummary();
                         });
                     },
                     customGetter: function (idPrefix, name, uniqueIndex) {
