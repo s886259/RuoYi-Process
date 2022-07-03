@@ -141,9 +141,9 @@
                                required>
                     </div>
                 </div>
-                <!--速成率-->
+                <!--达成率-->
                 <div class="form-group col-sm-3">
-                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>速成率(%)：</label>
+                    <label class="col-sm-4 control-label"><span style="color: red; ">*</span>达成率(%)：</label>
                     <div class="col-sm-8">
                         <input name="sumPlanRate" class="form-control" type="text" placeholder="自动计算" readonly
                                required>
@@ -502,7 +502,8 @@
             //阶段生产
             sumTemp.sumProdNum += getAppendGridData("prodNum", i);
             //总生产
-            sumTemp.sumTotalProdNum += getAppendGridData("totalProdNum", i);
+            // sumTemp.sumTotalProdNum += getAppendGridData("totalProdNum", i);
+            //再利用
             sumTemp.sumReuse += getAppendGridData("reuse", i);
             //间接人员数量
             var indirectOperator = getAppendGridArray("indirectOperator", i).length;
@@ -513,20 +514,22 @@
         $("input[name='sumMinute']").val(sumMinute);
         $("input[name='sumHour']").val(sumTemp.sumHour.toFixed(2));
         $("input[name='sumPlanNum']").val(sumTemp.sumPlanNum);
+        //阶段生产
         $("input[name='sumProdNum']").val(sumTemp.sumProdNum);
-        //总生产
+        //总生产 表单下面，数据统计里面的总生产=总的阶段生产，不用累加；
+        sumTemp.sumTotalProdNum=sumTemp.sumProdNum
         $("input[name='sumTotalProdNum']").val(sumTemp.sumTotalProdNum);
         //不良数
         $("input[name='sumBadNum']").val(sumTemp.sumBadNum);
         //试验品
         $("input[name='sumTestNum']").val(sumTemp.sumTestNum);
-        //实际统计数总数=总生产总数-不良数-实验品数
+        //总的实际统计数=总生产总数（也可以用总的阶段生产数）-不良数-实验品数
         var sumRealNum = sumTemp.sumTotalProdNum - sumTemp.sumBadNum - sumTemp.sumTestNum
         $("input[name='sumRealNum']").val(sumRealNum);
         $("input[name='sumReuse']").val(sumTemp.sumReuse);
         $("input[name='sumDirectOperator']").val(sumTemp.sumDirectOperator);
         $("input[name='sumIndirectOperator']").val(sumTemp.sumIndirectOperator);
-        // 速成率=实际统计数/计划数 *100%
+        // 达成率=实际统计数/计划数 *100%
         sumTemp.sumPlanRate += (sumTemp.sumRealNum * 100 / sumTemp.sumPlanNum)
         sumTemp.sumPlanRate = sumTemp.sumPlanRate.toFixed(2)
         $("input[name='sumPlanRate']").val(sumTemp.sumPlanRate);
@@ -564,7 +567,7 @@
         sumTemp.sumHourRate += sumTemp.sumHour * 100 / 8;
         sumTemp.sumHourRate = sumTemp.sumHourRate.toFixed(2)
         $("input[name='sumHourRate']").val(sumTemp.sumHourRate);
-        //特记=实际统计总数/总稼动时间（该时间单位为分钟）/60（将分钟换算成小时）/直接人员人数
+        //特计=实际统计总数/总稼动时间（该时间单位为分钟）/60（将分钟换算成小时）/直接人员人数
         var reason = Math.floor(parseFloat(sumRealNum) / sumWorkTimeType2 / 60 / sumTemp.sumDirectOperator * 100) / 100
         $("input[name='reason']").val(reason);
         formData = sumTemp;
