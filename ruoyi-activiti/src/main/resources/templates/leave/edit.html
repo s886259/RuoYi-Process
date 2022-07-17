@@ -61,7 +61,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>时间(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumMinute" class="form-control" type="text" placeholder="自动计算"
+                        <input name="sumMinute" class="form-control" type="number" min="0"
                                th:field="*{sumMinute}" readonly required>
                     </div>
                 </div>
@@ -69,14 +69,14 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>工时(h)：</label>
                     <div class="col-sm-8">
-                        <input name="sumHour" class="form-control" type="text" placeholder="自动计算" readonly required>
+                        <input name="sumHour" class="form-control" type="number" min="0" readonly required>
                     </div>
                 </div>
                 <!--計画数-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>計画数：</label>
                     <div class="col-sm-8">
-                        <input name="sumPlanNum" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumPlanNum" class="form-control" type="number" readonly
                                required>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>阶段生产：</label>
                     <div class="col-sm-8">
-                        <input name="sumProdNum" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumProdNum" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -94,29 +94,29 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>总生产：</label>
                     <div class="col-sm-8">
-                        <input name="sumTotalProdNum" class="form-control" type="text" placeholder="自动计算" readonly
-                               required>
+                        <input name="sumTotalProdNum" class="form-control" type="number" min="0"
+                               readonly required>
                     </div>
                 </div>
                 <!--実績统计数-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>実績统计数：</label>
                     <div class="col-sm-8">
-                        <input name="sumRealNum" class="form-control" type="text" placeholder="自动计算" readonly required>
+                        <input name="sumRealNum" class="form-control" type="number" min="0" readonly required>
                     </div>
                 </div>
                 <!--不良数-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>不良数：</label>
                     <div class="col-sm-8">
-                        <input name="sumBadNum" class="form-control" type="text" placeholder="自动计算" readonly required>
+                        <input name="sumBadNum" class="form-control" type="number" readonly required>
                     </div>
                 </div>
                 <!--试验品-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>试验品：</label>
                     <div class="col-sm-8">
-                        <input name="sumTestNum" class="form-control" type="text" placeholder="自动计算" readonly required>
+                        <input name="sumTestNum" class="form-control" type="number" readonly required>
                     </div>
                 </div>
             </div>
@@ -125,22 +125,21 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>再利用：</label>
                     <div class="col-sm-8">
-                        <input name="sumReuse" class="form-control" type="text" placeholder="自动计算" readonly required>
+                        <input name="sumReuse" class="form-control" type="number" min="0" readonly required>
                     </div>
                 </div>
                 <!--直接作业人员-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>直接作业人员：</label>
                     <div class="col-sm-8">
-                        <input name="sumDirectOperator" class="form-control" type="text" placeholder="自动计算" readonly
-                               required>
+                        <input name="sumDirectOperator" class="form-control" type="number" min="0.1" readonly required>
                     </div>
                 </div>
                 <!--直间作业人员-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>直间作业人员：</label>
                     <div class="col-sm-8">
-                        <input name="sumIndirectOperator" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumIndirectOperator" class="form-control" type="number" min="0.1" readonly
                                required>
                     </div>
                 </div>
@@ -148,8 +147,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>达成率(%)：</label>
                     <div class="col-sm-8">
-                        <input name="sumPlanRate" class="form-control" type="text" placeholder="自动计算" readonly
-                               required>
+                        <input name="sumPlanRate" class="form-control" type="number" min="0" readonly required>
                     </div>
                 </div>
             </div>
@@ -158,23 +156,21 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>稼动(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType2" class="form-control" type="text" placeholder="自动计算" readonly
-                               required>
+                        <input name="sumWorkTimeType2" class="form-control" type="number" min="1" readonly required>
                     </div>
                 </div>
                 <!--部品等待-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>部品等待(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType16" class="form-control" type="text" placeholder="自动计算" readonly
-                               required>
+                        <input name="sumWorkTimeType16" class="form-control" type="number" min="0" readonly required>
                     </div>
                 </div>
                 <!--切换时间-->
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>切换时间(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType11" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumWorkTimeType11" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -182,8 +178,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>品质停止(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType10" class="form-control" type="text" placeholder="自动计算" readonly
-                               required>
+                        <input name="sumWorkTimeType10" class="form-control" type="number" min="0" readonly required>
                     </div>
                 </div>
             </div>
@@ -192,7 +187,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>设备停止(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType5" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumWorkTimeType5" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -200,7 +195,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>试做(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType12" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumWorkTimeType12" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -208,7 +203,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>无计划(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType9" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumWorkTimeType9" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -216,7 +211,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>其他(min)：</label>
                     <div class="col-sm-8">
-                        <input name="sumWorkTimeType19" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumWorkTimeType19" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -227,7 +222,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>良品比例(%)：</label>
                     <div class="col-sm-8">
-                        <input name="sumGoodProdRate" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumGoodProdRate" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -235,7 +230,7 @@
                 <div class="form-group col-sm-3">
                     <label class="col-sm-4 control-label"><span style="color: red; ">*</span>工时达成率(%)：</label>
                     <div class="col-sm-8">
-                        <input name="sumHourRate" class="form-control" type="text" placeholder="自动计算" readonly
+                        <input name="sumHourRate" class="form-control" type="number" min="0" readonly
                                required>
                     </div>
                 </div>
@@ -251,13 +246,13 @@
                 </div>
             </div>
         </div>
-
+        <!-- 特计=实际统计总数/总稼动时间（该时间单位为分钟）/60（将分钟换算成小时）/直接人员人数-->
         <h1>特计</h1>
         <div class="container-div">
             <div class="form-group">
                 <div class="col-sm-12">
-                    <input name="reason" class="form-control" th:disabled="${disabled}" th:value="*{reason}"
-                           required></input>
+                    <input name="reason" type="number" min="0" class="form-control" th:value="*{reason}"
+                           readonly required></input>
                 </div>
             </div>
         </div>
@@ -471,7 +466,7 @@
                 sumTemp.sumWorkTimeTypes[workTimeType] += minute;
             }
             //直接人员数量
-            var directOperator = getAppendGridArray("directOperator", i).length;
+            var directOperator = $("#tblAppendGrid_directOperator_" + (i + 1)).next().find('.select2-selection__choice').length
             sumTemp.sumDirectOperator += directOperator;
             //工时
             if (workTimeType == 5 || workTimeType == 6 || workTimeType == 7) {
@@ -511,7 +506,7 @@
             //再利用
             sumTemp.sumReuse += getAppendGridData("reuse", i);
             //间接人员数量
-            var indirectOperator = getAppendGridArray("indirectOperator", i).length;
+            var indirectOperator = $("#tblAppendGrid_indirectOperator_" + (i + 1)).next().find('.select2-selection__choice').length
             sumTemp.sumIndirectOperator += indirectOperator;
         }
         //总作业时间=这一列时间的累加-休息7-就餐时间6-其他产线生产3，单位为分钟
@@ -799,13 +794,9 @@
                     },
                     ctrlAttr: getCtrlAttr({
                         required: "required",
+                        readonly: "readonly",
                         min: 0
                     }),
-                    events: {
-                        change: function (e) {
-                            dataSummary();
-                        }
-                    }
                 },
                 {
                     name: "totalProdNum",
@@ -817,13 +808,9 @@
                     },
                     ctrlAttr: getCtrlAttr({
                         required: "required",
+                        readonly: "readonly",
                         min: 0
                     }),
-                    events: {
-                        change: function (e) {
-                            dataSummary();
-                        }
-                    }
                 },
                 {
                     name: "realNum",
@@ -896,7 +883,7 @@
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
                         var data = [[${bizLeave}]].gridDatas[uniqueIndex - 1] || {};
-                        var arr = data.directOperator || [[${@dict.getType('biz_operator')}]].map(i=>i.dictValue);
+                        var arr = data.directOperator || [[${@dict.getType('biz_operator')}]].map(i => i.dictValue);
                         renderOptions(parent, controlId, arr);
                         $("#" + controlId).select2({
                             placeholder: "请选择",
@@ -941,7 +928,7 @@
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
                         var data = [[${bizLeave}]].gridDatas[uniqueIndex - 1] || {};
-                        var arr = data.indirectOperator || [[${@dict.getType('biz_operator')}]].map(i=>i.dictValue);
+                        var arr = data.indirectOperator || [[${@dict.getType('biz_operator')}]].map(i => i.dictValue);
                         renderOptions(parent, controlId, arr);
                         $("#" + controlId).select2({
                             placeholder: "请选择",
@@ -1073,17 +1060,10 @@
                 moveUp: true,
                 moveDown: true,
                 removeLast: true
-            },
-            afterRowInserted: function (caller, rowIndex) {
-                // renderSelect2();
-            },
-            afterRowAppended: function (caller, rowIndex) {
-                // renderSelect2();
-            },
+            }
         });
 
         //trigger render
-        // renderSelect2();
         var len = [[${bizLeave}]].gridDatas.length;
         for (var i = 1; i <= len; i++) {
             workTimeTypeChange(i);
@@ -1091,30 +1071,6 @@
         //触发数据统计
         dataSummary();
     })
-
-    function renderSelect2() {
-        $(".select2-multiple").select2({
-            placeholder: "请选择",
-            tags: true,
-            // theme: "classic",
-            width: 'resolve', // need to override the changed default
-            createTag: function (params) {
-                var term = $.trim(params.term);
-
-                if (term === '') {
-                    return null;
-                }
-
-                return {
-                    id: term,
-                    text: term,
-                    newTag: true // add additional parameters
-                }
-            }
-        }).on('change', function (e) {
-            dataSummary()
-        });
-    }
 </script>
 <style>
     .container-div {
