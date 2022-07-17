@@ -478,7 +478,7 @@
             sumTemp.sumPlanNum += planNum;
             //実績统计数
             var realNum = getAppendGridData("realNum", i);
-            sumTemp.sumRealNum += realNum;
+            // sumTemp.sumRealNum += realNum;
             //不良数
             var badNum = getAppendGridData("badNum", i);
             sumTemp.sumBadNum += badNum;
@@ -521,15 +521,16 @@
         $("input[name='sumTestNum']").val(sumTemp.sumTestNum);
         //总的实际统计数=总生产总数（也可以用总的阶段生产数）-不良数-实验品数
         var sumRealNum = sumTemp.sumTotalProdNum - sumTemp.sumBadNum - sumTemp.sumTestNum
+        sumTemp.sumRealNum = sumRealNum;
         $("input[name='sumRealNum']").val(sumRealNum);
+        //再利用
         $("input[name='sumReuse']").val(sumTemp.sumReuse);
         //直接人员数量
         $("input[name='sumDirectOperator']").val(Math.round(sumTemp.sumDirectOperator * 10 / rowCount) / 10);
         //间接人员数量
         $("input[name='sumIndirectOperator']").val(Math.round(sumTemp.sumIndirectOperator * 10 / rowCount) / 10);
-        // 达成率=实际统计数/计划数 *100%
-        sumTemp.sumPlanRate += (sumTemp.sumRealNum * 100 / sumTemp.sumPlanNum)
-        sumTemp.sumPlanRate = sumTemp.sumPlanRate.toFixed(2)
+        //达成率=实际统计数/计划数 *100%
+        sumTemp.sumPlanRate = Math.round(sumTemp.sumRealNum / sumTemp.sumPlanNum * 10000) / 100;
         $("input[name='sumPlanRate']").val(sumTemp.sumPlanRate);
         //稼动
         var sumWorkTimeType2 = sumTemp.sumWorkTimeTypes["2"];
@@ -558,15 +559,14 @@
         //良品比例=(実績统计数-不良数)/実績统计数 *100%
         if (sumTemp.sumRealNum > 0) {
             sumTemp.sumGoodProdRate += (sumTemp.sumRealNum - sumTemp.sumBadNum) * 100 / sumTemp.sumRealNum;
-            sumTemp.sumGoodProdRate = sumTemp.sumGoodProdRate.toFixed(2)
+            sumTemp.sumGoodProdRate = Math.round(sumTemp.sumGoodProdRate * 100 / 100)
             $("input[name='sumGoodProdRate']").val(sumTemp.sumGoodProdRate);
         }
         //工时达成率
-        sumTemp.sumHourRate += sumTemp.sumHour * 100 / 8;
-        sumTemp.sumHourRate = sumTemp.sumHourRate.toFixed(2)
+        sumTemp.sumHourRate = Math.round(sumTemp.sumHour * 100 / 8 * 100) / 100;
         $("input[name='sumHourRate']").val(sumTemp.sumHourRate);
         //特计=实际统计总数/总稼动时间（该时间单位为分钟）/60（将分钟换算成小时）/直接人员人数
-        var reason = Math.floor(parseFloat(sumRealNum) / sumWorkTimeType2 / 60 / sumTemp.sumDirectOperator * 100) / 100
+        var reason = Math.round(sumRealNum / sumWorkTimeType2 / 60 / sumTemp.sumDirectOperator * 100) / 100
         $("input[name='reason']").val(reason);
         formData = sumTemp;
     }
