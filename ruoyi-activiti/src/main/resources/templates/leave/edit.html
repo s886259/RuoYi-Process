@@ -391,12 +391,19 @@
             var optionDom = document.createElement("option");
             optionDom.value = dict.dictValue;
             optionDom.innerText = dict.dictLabel;
+            // // data选中
+            // for (var j = 0; j < arr.length; j++) {
+            //     if (arr[j] == dict.dictValue) {
+            //         optionDom.selected = "selected";
+            //     }
+            // }
             selectDom.appendChild(optionDom);
         }
         parent.appendChild(selectDom);
         setTimeout(function () {
             //https://select2.org/programmatic-control/add-select-clear-items
             $("#" + controlId).val(arr);
+            console.error(controlId, arr)
             $("#" + controlId).trigger('change');
         }, 500);
     }
@@ -470,7 +477,8 @@
                 sumTemp.sumWorkTimeTypes[workTimeType] += minute;
             }
             //直接人员数量
-            var directOperator = $("#tblAppendGrid_directOperator_" + (i + 1)).next().find('.select2-selection__choice').length
+            // var directOperator = $("#tblAppendGrid_directOperator_" + (i + 1)).next().find('.select2-selection__choice').length
+            var directOperator = getAppendGridArray("directOperator", i).length;
             sumTemp.sumDirectOperator += directOperator;
             //工时
             if (workTimeType == 5 || workTimeType == 6 || workTimeType == 7) {
@@ -510,7 +518,8 @@
             //再利用
             sumTemp.sumReuse += getAppendGridData("reuse", i);
             //间接人员数量
-            var indirectOperator = $("#tblAppendGrid_indirectOperator_" + (i + 1)).next().find('.select2-selection__choice').length
+            // var indirectOperator = $("#tblAppendGrid_indirectOperator_" + (i + 1)).next().find('.select2-selection__choice').length
+            var indirectOperator = getAppendGridArray("indirectOperator", i).length;
             sumTemp.sumIndirectOperator += indirectOperator;
         }
         //总作业时间=这一列时间的累加-休息7-就餐时间6-其他产线生产3，单位为分钟
