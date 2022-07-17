@@ -472,7 +472,7 @@
             }
             //直接人员数量
             var directOperator = getAppendGridArray("directOperator", i).length;
-            sumTemp.sumDirectOperator = Math.max(directOperator, sumTemp.sumDirectOperator);
+            sumTemp.sumDirectOperator += directOperator;
             //工时
             if (workTimeType == 5 || workTimeType == 6 || workTimeType == 7) {
                 //时间类型为休息7、就餐6 工时=0
@@ -500,30 +500,25 @@
                 myAppendGrid.setCtrlValue("totalProdNum", i, realNum);
                 myAppendGrid.setCtrlValue("prodNum", i, realNum);
             } else {
-                /**
-                 * 2.自第二行起
-                 *  总生产数 = 实际统计数 + 不良数 + 实验品
-                 *  阶段生产 = 总生产 -（减去）上一行的实际统计数
-                 */
+                //2.自第二行起,总生产数 = 实际统计数 + 不良数 + 实验品
                 var totalProdNum = realNum + badNum + testNum;
                 myAppendGrid.setCtrlValue("totalProdNum", i, totalProdNum);
+                //阶段生产 = 总生产 -（减去）上一行的实际统计数
                 myAppendGrid.setCtrlValue("prodNum", i, totalProdNum - getAppendGridData("realNum", i - 1));
             }
             //阶段生产
             sumTemp.sumProdNum += getAppendGridData("prodNum", i);
-            //总生产
-            // sumTemp.sumTotalProdNum += getAppendGridData("totalProdNum", i);
             //再利用
             sumTemp.sumReuse += getAppendGridData("reuse", i);
             //间接人员数量
             var indirectOperator = getAppendGridArray("indirectOperator", i).length;
-            sumTemp.sumIndirectOperator = Math.max(indirectOperator, sumTemp.sumDirectOperator);
+            sumTemp.sumIndirectOperator += indirectOperator;
         }
         //总作业时间=这一列时间的累加-休息7-就餐时间6-其他产线生产3，单位为分钟
         var sumMinute = sumTemp.sumMinute - sumTemp.sumWorkTimeTypes["7"] - sumTemp.sumWorkTimeTypes["6"] - sumTemp.sumWorkTimeTypes["3"]
         $("input[name='sumMinute']").val(sumMinute);
         //工时
-        $("input[name='sumHour']").val(sumTemp.sumHour);
+        $("input[name='sumHour']").val(Math.round(sumTemp.sumHour * 100) / 100);
         $("input[name='sumPlanNum']").val(sumTemp.sumPlanNum);
         //阶段生产
         $("input[name='sumProdNum']").val(sumTemp.sumProdNum);
@@ -538,8 +533,10 @@
         var sumRealNum = sumTemp.sumTotalProdNum - sumTemp.sumBadNum - sumTemp.sumTestNum
         $("input[name='sumRealNum']").val(sumRealNum);
         $("input[name='sumReuse']").val(sumTemp.sumReuse);
-        $("input[name='sumDirectOperator']").val(sumTemp.sumDirectOperator);
-        $("input[name='sumIndirectOperator']").val(sumTemp.sumIndirectOperator);
+        //直接人员数量
+        $("input[name='sumDirectOperator']").val(Math.round(sumTemp.sumDirectOperator * 10 / rowCount) / 10);
+        //间接人员数量
+        $("input[name='sumIndirectOperator']").val(Math.round(sumTemp.sumIndirectOperator * 10 / rowCount) / 10);
         // 达成率=实际统计数/计划数 *100%
         sumTemp.sumPlanRate += (sumTemp.sumRealNum * 100 / sumTemp.sumPlanNum)
         sumTemp.sumPlanRate = sumTemp.sumPlanRate.toFixed(2)
