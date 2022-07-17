@@ -896,7 +896,7 @@
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
                         var data = [[${bizLeave}]].gridDatas[uniqueIndex - 1] || {};
-                        var arr = data.directOperator || [];
+                        var arr = data.directOperator || [[${@dict.getType('biz_operator')}]].map(i=>i.dictValue);
                         renderOptions(parent, controlId, arr);
                         $("#" + controlId).select2({
                             placeholder: "请选择",
@@ -941,7 +941,7 @@
                     customBuilder: function (parent, idPrefix, name, uniqueIndex) {
                         var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
                         var data = [[${bizLeave}]].gridDatas[uniqueIndex - 1] || {};
-                        var arr = data.indirectOperator || [];
+                        var arr = data.indirectOperator || [[${@dict.getType('biz_operator')}]].map(i=>i.dictValue);
                         renderOptions(parent, controlId, arr);
                         $("#" + controlId).select2({
                             placeholder: "请选择",
@@ -1021,14 +1021,38 @@
                 {
                     name: "repairReason",
                     display: "停止原因",
-                    type: "select",
-                    ctrlOptions: getDictStr([[${@dict.getType('biz_repair_reason')}]]),
-                    ctrlCss: {
-                        "max-width": "130px",
-                        "min-width": "130px"
+                    type: "custom",
+                    customBuilder: function (parent, idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        var input = document.createElement("input");
+                        input.classList.add("form-control");
+                        input.setAttribute("list", controlId + "_datalist");
+                        input.setAttribute("disabled", "disabled");
+                        input.setAttribute("required", "required");
+                        input.style["width"] = "130px";
+                        input.id = controlId;
+                        input.name = controlId;
+                        //init datalist
+                        var datalist = document.createElement("datalist");
+                        datalist.id = controlId + "_datalist";
+                        var dicts = [[${@dict.getType('biz_repair_reason')}]];
+                        for (var i = 0; i < dicts.length; i++) {
+                            var dict = dicts[i]
+                            var optionDom = document.createElement("option");
+                            optionDom.value = dict.dictLabel;
+                            datalist.appendChild(optionDom);
+                        }
+                        parent.appendChild(input);
+                        parent.appendChild(datalist);
+
                     },
-                    ctrlAttr: {
-                        disabled: "disabled"
+                    customGetter: function (idPrefix, name, uniqueIndex) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        return document.getElementById(controlId).value;
+                    },
+                    customSetter: function (idPrefix, name, uniqueIndex, value) {
+                        var controlId = idPrefix + "_" + name + "_" + uniqueIndex;
+                        document.getElementById(controlId).value = value;
                     }
                 },
                 {
@@ -1060,6 +1084,10 @@
 
         //trigger render
         // renderSelect2();
+        var len = [[${bizLeave}]].gridDatas.length;
+        for (var i = 1; i <= len; i++) {
+            workTimeTypeChange(i);
+        }
         //触发数据统计
         dataSummary();
     })
