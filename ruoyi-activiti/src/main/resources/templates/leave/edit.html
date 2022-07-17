@@ -536,7 +536,8 @@
         //再利用
         $("input[name='sumReuse']").val(sumTemp.sumReuse);
         //直接人员数量
-        $("input[name='sumDirectOperator']").val(Math.round(sumTemp.sumDirectOperator * 10 / rowCount) / 10);
+        sumTemp.sumDirectOperator = Math.round(sumTemp.sumDirectOperator * 10 / rowCount) / 10;
+        $("input[name='sumDirectOperator']").val(sumTemp.sumDirectOperator);
         //间接人员数量
         $("input[name='sumIndirectOperator']").val(Math.round(sumTemp.sumIndirectOperator * 10 / rowCount) / 10);
         //达成率=实际统计数/计划数 *100%
@@ -577,7 +578,6 @@
         $("input[name='sumHourRate']").val(sumTemp.sumHourRate);
         //特计=实际统计总数/总稼动时间（该时间单位为分钟）/60（将分钟换算成小时）/直接人员人数
         var reason = Math.round(sumRealNum / sumWorkTimeType2 / 60 / sumTemp.sumDirectOperator * 100) / 100
-        debugger
         $("input[name='reason']").val(reason);
         formData = sumTemp;
     }

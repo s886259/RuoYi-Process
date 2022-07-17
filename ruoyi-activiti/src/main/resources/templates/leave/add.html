@@ -526,7 +526,8 @@
         //再利用
         $("input[name='sumReuse']").val(sumTemp.sumReuse);
         //直接人员数量
-        $("input[name='sumDirectOperator']").val(Math.round(sumTemp.sumDirectOperator * 10 / rowCount) / 10);
+        sumTemp.sumDirectOperator = Math.round(sumTemp.sumDirectOperator * 10 / rowCount) / 10;
+        $("input[name='sumDirectOperator']").val(sumTemp.sumDirectOperator);
         //间接人员数量
         $("input[name='sumIndirectOperator']").val(Math.round(sumTemp.sumIndirectOperator * 10 / rowCount) / 10);
         //达成率=实际统计数/计划数 *100%
