@@ -318,6 +318,11 @@
             //gridDatas
             for (var i = 0; i < myAppendGrid.getRowCount(); i++) {
                 var rowValues = myAppendGrid.getRowValue(i);
+                // var data = [[${bizLeave}]].gridDatas[i] || {};
+                // //直接人员
+                // rowValues["directOperator"] = rowValues["directOperator"].length > 0 ? rowValues["directOperator"] : data.directOperator;
+                // //间接人员
+                // rowValues["indirectOperator"] =  rowValues["indirectOperator"].length > 0 ? rowValues["indirectOperator"] : data.indirectOperator;
                 formData.gridDatas.push(rowValues)
             }
             formData.prodLine = $("select[name='prodLine']").val();
@@ -374,8 +379,8 @@
         selectDom.classList.add("form-control");
         selectDom.classList.add("select2-multiple");
         selectDom.setAttribute("multiple", "multiple");
-        // selectDom.setAttribute("required", "required");
-        // selectDom.setAttribute("aria-required", true);
+        selectDom.setAttribute("required", "required");
+        selectDom.setAttribute("aria-required", true);
         selectDom.style["width"] = "400px";
         selectDom.id = controlId;
         selectDom.name = controlId;
@@ -386,15 +391,14 @@
             var optionDom = document.createElement("option");
             optionDom.value = dict.dictValue;
             optionDom.innerText = dict.dictLabel;
-            // data选中
-            for (var j = 0; j < arr.length; j++) {
-                if (arr[j] == dict.dictValue) {
-                    optionDom.selected = "selected";
-                }
-            }
             selectDom.appendChild(optionDom);
         }
         parent.appendChild(selectDom);
+        setTimeout(function () {
+            //https://select2.org/programmatic-control/add-select-clear-items
+            $("#" + controlId).val(arr);
+            $("#" + controlId).trigger('change');
+        }, 500);
     }
 
     // 监听开始和结束日期填写，动态生成时间和工时
