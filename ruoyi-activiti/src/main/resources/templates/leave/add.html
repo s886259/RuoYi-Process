@@ -558,11 +558,8 @@
         var sumWorkTimeType19 = sumMinute - sumWorkTimeType2 - sumWorkTimeType11 - sumWorkTimeType5 - sumWorkTimeType9 - sumWorkTimeType16 - sumWorkTimeType10 - sumWorkTimeType12;
         $("input[name='sumWorkTimeType19']").val(sumWorkTimeType19);
         //良品比例=(実績统计数-不良数)/実績统计数 *100%
-        if (sumTemp.sumRealNum > 0) {
-            sumTemp.sumGoodProdRate += (sumTemp.sumRealNum - sumTemp.sumBadNum) * 100 / sumTemp.sumRealNum;
-            sumTemp.sumGoodProdRate = Math.round(sumTemp.sumGoodProdRate * 100 / 100)
-            $("input[name='sumGoodProdRate']").val(sumTemp.sumGoodProdRate);
-        }
+        sumTemp.sumGoodProdRate = Math.round((sumTemp.sumRealNum - sumTemp.sumBadNum) * 100 / sumTemp.sumRealNum * 100) / 100
+        $("input[name='sumGoodProdRate']").val(sumTemp.sumGoodProdRate);
         //工时达成率
         sumTemp.sumHourRate = Math.round(sumTemp.sumHour * 100 / 8 * 100) / 100;
         $("input[name='sumHourRate']").val(sumTemp.sumHourRate);
