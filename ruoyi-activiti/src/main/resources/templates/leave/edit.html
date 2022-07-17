@@ -331,7 +331,7 @@
             formData.badReason = $("textarea[name='badReason']").val();
             formData.reason = $("textarea[name='reason']").val();
             formData.id = $("input[name='id']").val();
-            $.operate.saveJson( prefix + "/edit", JSON.stringify(formData));
+            $.operate.saveJson(prefix + "/edit", JSON.stringify(formData));
         }
     }
 
@@ -393,7 +393,7 @@
             optionDom.innerText = dict.dictLabel;
             // data选中
             for (var j = 0; j < arr.length; j++) {
-                if(arr[j] == dict.dictValue){
+                if (arr[j] == dict.dictValue) {
                     optionDom.selected = "selected";
                 }
             }
@@ -479,7 +479,7 @@
                 myAppendGrid.setCtrlValue("hour", i, 0);
             } else {
                 //工时单位为小时，计算公式 时间/60*直接人员数量
-                var hour = Math.floor(minute * 100 * directOperator / 60) / 100;
+                var hour = Math.round(minute * 100 * directOperator / 60) / 100;
                 myAppendGrid.setCtrlValue("hour", i, hour);
             }
             sumTemp.sumHour += getAppendGridData("hour", i);
@@ -522,12 +522,13 @@
         //总作业时间=这一列时间的累加-休息7-就餐时间6-其他产线生产3，单位为分钟
         var sumMinute = sumTemp.sumMinute - sumTemp.sumWorkTimeTypes["7"] - sumTemp.sumWorkTimeTypes["6"] - sumTemp.sumWorkTimeTypes["3"]
         $("input[name='sumMinute']").val(sumMinute);
-        $("input[name='sumHour']").val(sumTemp.sumHour.toFixed(2));
+        //工时
+        $("input[name='sumHour']").val(sumTemp.sumHour);
         $("input[name='sumPlanNum']").val(sumTemp.sumPlanNum);
         //阶段生产
         $("input[name='sumProdNum']").val(sumTemp.sumProdNum);
         //总生产 表单下面，数据统计里面的总生产=总的阶段生产，不用累加；
-        sumTemp.sumTotalProdNum=sumTemp.sumProdNum
+        sumTemp.sumTotalProdNum = sumTemp.sumProdNum
         $("input[name='sumTotalProdNum']").val(sumTemp.sumTotalProdNum);
         //不良数
         $("input[name='sumBadNum']").val(sumTemp.sumBadNum);
